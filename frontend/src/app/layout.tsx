@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import SnackbarProvider from "@/components/Snackbar";
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
@@ -57,7 +58,7 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: "/favicon.ico",
-    apple: "/logo.svg",
+    apple: "/logo.png",
   },
 };
 
@@ -73,7 +74,9 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-[#7a4538]">
         <Navbar />
-        <main className="flex-1">{children}</main>
+        <SnackbarProvider>
+          <main className="flex-1">{children}</main>
+        </SnackbarProvider>
       </body>
     </html>
   );

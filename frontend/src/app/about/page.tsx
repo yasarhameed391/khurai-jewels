@@ -81,12 +81,10 @@ export default function AboutPage() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             {/* Image with decorative elements */}
             <div className="relative">
-              <div className="absolute -top-4 -left-4 w-full h-full border-2 border-white/20 rounded-2xl"></div>
-              <div className="absolute -bottom-4 -right-4 w-full h-full border-2 border-white/20 rounded-2xl"></div>
               <img 
                 src="/founder.jpg" 
                 alt="Thasni Hameed" 
-                className="relative w-full max-w-xs mx-auto rounded-2xl object-cover shadow-2xl"
+                className="relative w-48 h-48 mx-auto rounded-full object-cover shadow-2xl border-4 border-white/20"
               />
             </div>
             

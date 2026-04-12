@@ -18,7 +18,7 @@ export default function Navbar() {
 
   const navLinks = [
     { name: 'Home', path: '/' },
-    { name: 'Shop', path: '/products' },
+    { name: 'Products', path: '/products' },
     { name: 'About', path: '/about' },
     { name: 'Contact', path: '/contact' },
   ];
@@ -75,7 +75,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center">
             <img 
-              src="/logo.svg" 
+              src="/logo.png" 
               alt="Khurai Jewels" 
               className="h-14 w-auto object-contain"
             />

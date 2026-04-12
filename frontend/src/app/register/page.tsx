@@ -4,11 +4,11 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { register } from '@/lib/api';
+import { showSnackbar } from '@/components/Snackbar';
 
 export default function RegisterPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -22,7 +22,6 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
     setLoading(true);
 
     try {
@@ -38,9 +37,10 @@ export default function RegisterPage() {
           pincode: formData.pincode,
         }
       );
+      showSnackbar('Account created successfully!', 'success');
       router.push('/');
     } catch (err: any) {
-      setError(err.message || 'Registration failed');
+      showSnackbar(err.message || 'Registration failed', 'error');
     } finally {
       setLoading(false);
     }
@@ -54,12 +54,6 @@ export default function RegisterPage() {
             <h1 className="text-3xl text-white font-light">Create Account</h1>
             <p className="text-white-60 mt-2">Join Khurai Jewels</p>
           </div>
-
-          {error && (
-            <div className="bg-red-500/10 border border-red-500 text-red-400 px-4 py-3 rounded-lg mb-6">
-              {error}
-            </div>
-          )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>

@@ -119,26 +119,7 @@ function ProductsContent() {
         </div>
       </div>
 
-      {/* Price Filter */}
-      <div>
-        <h3 className="text-white text-sm font-medium uppercase tracking-wider mb-4">Price Range</h3>
-        <div className="space-y-2">
-          {priceRanges.map((range, idx) => (
-            <button
-              key={range.label}
-              onClick={() => setPriceFilter(idx)}
-              className={`block w-full text-left py-2 text-sm transition-colors ${
-                priceFilter === idx 
-                  ? 'text-white' 
-                  : 'text-gray-400 hover:text-white'
-              }`}
-            >
-              {range.label}
-            </button>
-          ))}
-        </div>
       </div>
-    </div>
   );
 
   return (

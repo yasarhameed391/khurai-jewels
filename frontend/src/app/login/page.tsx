@@ -4,32 +4,32 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { login, adminLogin, getStoredUser } from '@/lib/api';
+import { showSnackbar } from '@/components/Snackbar';
 
 export default function LoginPage() {
   const router = useRouter();
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
     setLoading(true);
 
     try {
       if (isAdmin) {
         await adminLogin(formData.email, formData.password);
+        showSnackbar('Admin logged in successfully!', 'success');
         router.push('/admin');
       } else {
         await login(formData.email, formData.password);
+        showSnackbar('Logged in successfully!', 'success');
         router.push('/');
       }
     } catch (err: any) {
-      setError(err.message || 'Login failed');
+      showSnackbar(err.message || 'Invalid credentials', 'error');
     } finally {
       setLoading(false);
     }
@@ -64,12 +64,6 @@ export default function LoginPage() {
               Admin
             </button>
           </div>
-
-          {error && (
-            <div className="bg-red-500/10 border border-red-500 text-red-400 px-4 py-3 rounded-lg mb-6">
-              {error}
-            </div>
-          )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
