@@ -1,6 +1,7 @@
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
+const path = require('path');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./config/swagger.config');
 const connectDB = require('./config/db');
@@ -13,10 +14,27 @@ const startServer = async () => {
   try {
     await connectDB();
 
-    app.use(helmet());
+    app.use(helmet({
+      crossOriginResourcePolicy: { policy: "cross-origin" },
+      contentSecurityPolicy: false,
+    }));
     app.use(cors());
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
+    
+    app.use('/uploads', (req, res, next) => {
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+      res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+      if (req.method === 'OPTIONS') {
+        return res.sendStatus(200);
+      }
+      next();
+    }, express.static(path.join(__dirname, '../uploads'), {
+      setHeaders: (res) => {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+      }
+    }));
 
     app.get('/health', (req, res) => {
       res.json({ status: 'ok', timestamp: new Date().toISOString() });

@@ -6,6 +6,30 @@ const router = express.Router();
 
 /**
  * @swagger
+ * /api/orders:
+ *   post:
+ *     summary: Create a new order
+ *     tags: [Orders]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               items: { type: array }
+ *               total: { type: number }
+ *               shippingAddress: { type: object }
+ *               isGuest: { type: boolean }
+ *               guestEmail: { type: string }
+ *     responses:
+ *       201:
+ *         description: Order created
+ */
+router.post('/', orderController.createOrderDirect);
+
+/**
+ * @swagger
  * /api/orders/checkout:
  *   post:
  *     summary: Create Stripe checkout session
@@ -79,5 +103,13 @@ router.post('/success', protect, orderController.createOrder);
  *         description: COD order created
  */
 router.post('/cod', orderController.createCODOrder);
+
+router.get('/user/:userId', orderController.getUserOrders);
+router.get('/admin', protect, orderController.getAllOrders);
+router.put('/:orderId/status', protect, orderController.updateOrderStatus);
+
+router.get('/razorpay/key', orderController.getRazorpayKey);
+router.post('/razorpay/create-order', orderController.createRazorpayOrder);
+router.post('/razorpay/verify', orderController.verifyRazorpayPayment);
 
 module.exports = router;

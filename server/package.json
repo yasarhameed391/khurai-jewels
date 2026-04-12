@@ -8,7 +8,11 @@
     "dev": "node --watch src/server.js",
     "seed": "node src/seed.js"
   },
-  "keywords": ["express", "api", "backend"],
+  "keywords": [
+    "express",
+    "api",
+    "backend"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -19,7 +23,9 @@
     "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.0",
+    "multer": "^2.1.1",
     "nodemailer": "^6.9.7",
+    "razorpay": "^2.9.2",
     "stripe": "^14.0.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0"

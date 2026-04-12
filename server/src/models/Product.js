@@ -6,6 +6,10 @@ const productSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
+  slug: {
+    type: String,
+    unique: true
+  },
   price: {
     type: Number,
     required: true,
@@ -32,6 +36,17 @@ const productSchema = new mongoose.Schema({
   }
 }, {
   timestamps: true
+});
+
+productSchema.pre('save', function(next) {
+  if (this.isModified('name') || !this.slug) {
+    this.slug = this.name
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '') 
+      + '-' + Date.now().toString(36);
+  }
+  next();
 });
 
 module.exports = mongoose.model('Product', productSchema);
