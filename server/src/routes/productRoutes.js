@@ -1,6 +1,7 @@
 const express = require('express');
 const productController = require('../controllers/productController');
 const protect = require('../middleware/auth');
+const upload = require('../config/upload');
 
 const router = express.Router();
 
@@ -26,10 +27,11 @@ router.get('/', productController.getAll);
  *       - in: path
  *         name: id
  *         required: true
- *         schema: { type: string }
+ *         schema:
+ *           type: string
  *     responses:
  *       200:
- *         description: Product found
+ *         description: Product details
  *       404:
  *         description: Product not found
  */
@@ -39,28 +41,35 @@ router.get('/:id', productController.getById);
  * @swagger
  * /api/products:
  *   post:
- *     summary: Create a product
+ *     summary: Create a new product
  *     tags: [Products]
- *     security: [{ bearerAuth: [] }]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             type: object
- *             required: [name, price, category, stock]
  *             properties:
- *               name: { type: string }
- *               price: { type: number }
- *               description: { type: string }
- *               image: { type: string }
- *               category: { type: string }
- *               stock: { type: number }
+ *               name:
+ *                 type: string
+ *               price:
+ *                 type: number
+ *               description:
+ *                 type: string
+ *               category:
+ *                 type: string
+ *               stock:
+ *                 type: number
+ *               image:
+ *                 type: string
+ *                 format: binary
  *     responses:
  *       201:
  *         description: Product created
  */
-router.post('/', protect, productController.create);
+router.post('/', protect, upload.single('image'), productController.create);
 
 /**
  * @swagger
@@ -68,32 +77,24 @@ router.post('/', protect, productController.create);
  *   put:
  *     summary: Update a product
  *     tags: [Products]
- *     security: [{ bearerAuth: [] }]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         schema: { type: string }
+ *         schema:
+ *           type: string
  *     requestBody:
- *       required: true
  *       content:
- *         application/json:
+ *         multipart/formData:
  *           schema:
  *             type: object
- *             properties:
- *               name: { type: string }
- *               price: { type: number }
- *               description: { type: string }
- *               image: { type: string }
- *               category: { type: string }
- *               stock: { type: number }
  *     responses:
  *       200:
  *         description: Product updated
- *       404:
- *         description: Product not found
  */
-router.put('/:id', protect, productController.update);
+router.put('/:id', protect, upload.single('image'), productController.update);
 
 /**
  * @swagger
@@ -101,17 +102,17 @@ router.put('/:id', protect, productController.update);
  *   delete:
  *     summary: Delete a product
  *     tags: [Products]
- *     security: [{ bearerAuth: [] }]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         schema: { type: string }
+ *         schema:
+ *           type: string
  *     responses:
  *       200:
  *         description: Product deleted
- *       404:
- *         description: Product not found
  */
 router.delete('/:id', protect, productController.remove);
 

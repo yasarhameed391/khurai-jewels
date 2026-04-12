@@ -9,27 +9,41 @@ const options = {
       description: 'E-commerce API for Khurai Jewels',
       contact: { name: 'API Support' }
     },
-    servers: [{ url: 'http://localhost:3000', description: 'Development server' }],
+    servers: [{ url: 'http://localhost:3001', description: 'Development server' }],
     components: {
       securitySchemes: {
         bearerAuth: { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' }
       },
       schemas: {
-        Product: {
-          type: 'object',
-          properties: {
-            _id: { type: 'string' },
-            name: { type: 'string' },
-            price: { type: 'number' },
-            description: { type: 'string' },
-            image: { type: 'string' },
-            category: { type: 'string' },
-            stock: { type: 'number' }
-          }
-        },
         User: {
           type: 'object',
-          properties: { id: { type: 'string' }, name: { type: 'string' }, email: { type: 'string' } }
+          properties: {
+            id: { type: 'string' },
+            name: { type: 'string' },
+            email: { type: 'string' },
+            phone: { type: 'string' },
+            address: { type: 'string' },
+            role: { type: 'string', enum: ['customer', 'admin'] }
+          }
+        },
+        AuthRequest: {
+          type: 'object',
+          required: ['email', 'password'],
+          properties: {
+            email: { type: 'string' },
+            password: { type: 'string' }
+          }
+        },
+        RegisterRequest: {
+          type: 'object',
+          required: ['name', 'email', 'password'],
+          properties: {
+            name: { type: 'string' },
+            email: { type: 'string' },
+            password: { type: 'string' },
+            phone: { type: 'string' },
+            address: { type: 'string' }
+          }
         },
         Cart: {
           type: 'object',

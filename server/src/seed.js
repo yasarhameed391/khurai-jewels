@@ -1,16 +1,18 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 const Product = require('./models/Product');
+const User = require('./models/User');
 
 const products = [
-  { name: 'Gold Necklace', price: 299.99, description: 'Elegant 18k gold necklace', image: '', category: 'Necklaces', stock: 15 },
-  { name: 'Diamond Ring', price: 899.99, description: 'Stunning diamond engagement ring', image: '', category: 'Rings', stock: 8 },
-  { name: 'Pearl Earrings', price: 149.99, description: 'Classic freshwater pearl earrings', image: '', category: 'Earrings', stock: 25 },
-  { name: 'Silver Bracelet', price: 79.99, description: 'Handcrafted sterling silver bracelet', image: '', category: 'Bracelets', stock: 30 },
-  { name: 'Ruby Pendant', price: 459.99, description: 'Beautiful ruby pendant in gold', image: '', category: 'Pendants', stock: 12 },
-  { name: 'Emerald Studs', price: 349.99, description: 'Genuine emerald stud earrings', image: '', category: 'Earrings', stock: 18 },
-  { name: 'Gold Bangle', price: 199.99, description: 'Classic gold bangle', image: '', category: 'Bracelets', stock: 20 },
-  { name: 'Sapphire Ring', price: 599.99, description: 'Blue sapphire cocktail ring', image: '', category: 'Rings', stock: 10 }
+  { name: 'Gold Necklace', price: 29999, description: 'Elegant 18k gold necklace', image: '', category: 'Necklaces', stock: 15 },
+  { name: 'Diamond Ring', price: 89999, description: 'Stunning diamond engagement ring', image: '', category: 'Rings', stock: 8 },
+  { name: 'Pearl Earrings', price: 14999, description: 'Classic freshwater pearl earrings', image: '', category: 'Earrings', stock: 25 },
+  { name: 'Silver Bracelet', price: 7999, description: 'Handcrafted sterling silver bracelet', image: '', category: 'Bracelets', stock: 30 },
+  { name: 'Ruby Pendant', price: 45999, description: 'Beautiful ruby pendant in gold', image: '', category: 'Necklaces', stock: 12 },
+  { name: 'Emerald Studs', price: 34999, description: 'Genuine emerald stud earrings', image: '', category: 'Earrings', stock: 18 },
+  { name: 'Gold Bangle', price: 19999, description: 'Classic gold bangle', image: '', category: 'Bracelets', stock: 20 },
+  { name: 'Sapphire Ring', price: 59999, description: 'Blue sapphire cocktail ring', image: '', category: 'Rings', stock: 10 }
 ];
 
 const seedDatabase = async () => {
@@ -22,7 +24,22 @@ const seedDatabase = async () => {
     const inserted = await Product.insertMany(products);
     console.log(`${inserted.length} products seeded successfully`);
 
+    const existingAdmin = await User.findOne({ email: 'thasnihameed.0305@gmail.com' });
+    if (!existingAdmin) {
+      const hashedPassword = await bcrypt.hash('admin123', 10);
+      await User.create({
+        name: 'Admin',
+        email: 'thasnihameed.0305@gmail.com',
+        password: hashedPassword,
+        role: 'admin'
+      });
+      console.log('Admin user created: thasnihameed.0305@gmail.com / admin123');
+    } else {
+      console.log('Admin user already exists');
+    }
+
     await mongoose.disconnect();
+    console.log('Seed completed!');
     process.exit(0);
   } catch (error) {
     console.error('Seed failed:', error.message);

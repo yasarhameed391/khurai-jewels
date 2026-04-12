@@ -1,0 +1,590 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import { isAdmin, getStoredToken, logout } from '@/lib/api';
+
+interface Product {
+  _id: string;
+  name: string;
+  slug?: string;
+  price: number;
+  category: string;
+  image: string;
+  description: string;
+  stock: number;
+}
+
+interface Order {
+  _id: string;
+  orderNumber: string;
+  products: Array<{ productId: { name: string }; quantity: number }>;
+  totalAmount: number;
+  paymentMethod: string;
+  paymentStatus: string;
+  orderStatus: string;
+  shippingAddress: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    address: string;
+    city: string;
+    pincode: string;
+    state: string;
+  };
+  createdAt: string;
+}
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+
+const ORDER_STATUSES = ['confirmed', 'processing', 'shipped', 'delivered', 'cancelled'];
+const PAYMENT_STATUSES = ['pending', 'paid', 'failed'];
+
+export default function AdminPage() {
+  const router = useRouter();
+  const [activeTab, setActiveTab] = useState<'products' | 'orders'>('products');
+  const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    price: '',
+    category: '',
+    description: '',
+    stock: '',
+  });
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
+
+  useEffect(() => {
+    const token = getStoredToken();
+    if (!token || !isAdmin()) {
+      router.push('/login');
+    } else {
+      loadProducts();
+      loadOrders();
+    }
+  }, []);
+
+  const loadOrders = async () => {
+    try {
+      const token = getStoredToken();
+      const res = await fetch(`${API_BASE_URL}/api/orders/admin`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await res.json();
+      if (data.data?.orders) {
+        setOrders(data.data.orders);
+      } else if (Array.isArray(data.data)) {
+        setOrders(data.data);
+      }
+    } catch (err) {
+      console.error('Failed to load orders:', err);
+    }
+  };
+
+  const updateOrderStatus = async (orderId: string, orderStatus: string, paymentStatus?: string) => {
+    try {
+      const token = getStoredToken();
+      const res = await fetch(`${API_BASE_URL}/api/orders/${orderId}/status`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ orderStatus, paymentStatus }),
+      });
+      if (res.ok) {
+        loadOrders();
+        setSelectedOrder(null);
+      }
+    } catch (err) {
+      console.error('Failed to update order:', err);
+    }
+  };
+
+  const loadProducts = async () => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/products`);
+      const data = await res.json();
+      setProducts(data.data);
+    } catch (err) {
+      console.error('Failed to load products:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleLogout = () => {
+    logout();
+    router.push('/');
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setUploading(true);
+
+    const token = getStoredToken();
+    const formDataObj = new FormData();
+    formDataObj.append('name', formData.name);
+    formDataObj.append('price', formData.price);
+    formDataObj.append('category', formData.category);
+    formDataObj.append('description', formData.description);
+    formDataObj.append('stock', formData.stock);
+    if (imageFile) {
+      formDataObj.append('image', imageFile);
+    }
+
+    try {
+      const url = editingProduct 
+        ? `${API_BASE_URL}/api/products/${editingProduct._id}`
+        : `${API_BASE_URL}/api/products`;
+      
+      const res = await fetch(url, {
+        method: editingProduct ? 'PUT' : 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formDataObj,
+      });
+
+      if (res.ok) {
+        loadProducts();
+        closeForm();
+      }
+    } catch (err) {
+      console.error('Failed to save product:', err);
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this product?')) return;
+    
+    const token = getStoredToken();
+    try {
+      await fetch(`${API_BASE_URL}/api/products/${id}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      loadProducts();
+    } catch (err) {
+      console.error('Failed to delete product:', err);
+    }
+  };
+
+  const openAddForm = () => {
+    setEditingProduct(null);
+    setFormData({ name: '', price: '', category: '', description: '', stock: '' });
+    setImageFile(null);
+    setIsFormOpen(true);
+  };
+
+  const openEditForm = (product: Product) => {
+    setEditingProduct(product);
+    setFormData({
+      name: product.name,
+      price: product.price.toString(),
+      category: product.category,
+      description: product.description || '',
+      stock: product.stock.toString(),
+    });
+    setImageFile(null);
+    setIsFormOpen(true);
+  };
+
+  const closeForm = () => {
+    setIsFormOpen(false);
+    setEditingProduct(null);
+    setFormData({ name: '', price: '', category: '', description: '', stock: '' });
+    setImageFile(null);
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#7a4538] pt-28 pb-16 flex items-center justify-center">
+        <div className="text-white">Loading...</div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-[#7a4538] pt-28 pb-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center mb-8">
+          <div>
+            <h1 className="text-3xl text-white font-light">Admin Dashboard</h1>
+            <div className="flex gap-6 mt-2">
+              <button
+                onClick={() => setActiveTab('products')}
+                className={`text-sm uppercase tracking-wider ${activeTab === 'products' ? 'text-white border-b-2 border-white' : 'text-white-60 hover:text-white'}`}
+              >
+                Products
+              </button>
+              <button
+                onClick={() => setActiveTab('orders')}
+                className={`text-sm uppercase tracking-wider ${activeTab === 'orders' ? 'text-white border-b-2 border-white' : 'text-white-60 hover:text-white'}`}
+              >
+                Orders ({orders.length})
+              </button>
+            </div>
+          </div>
+          <div className="flex gap-4">
+            {activeTab === 'products' && (
+              <button
+                onClick={openAddForm}
+                className="bg-[#9b5a4a] text-white px-6 py-3 font-medium uppercase tracking-wider hover:bg-[#7a4538]"
+              >
+                Add Product
+              </button>
+            )}
+            <button
+              onClick={handleLogout}
+              className="border border-zinc-700 text-white-60 px-6 py-3 hover:text-white hover:border-white"
+            >
+              Logout
+            </button>
+          </div>
+        </div>
+
+        {activeTab === 'orders' && (
+          <div className="bg-zinc-900/50 rounded-xl border border-zinc-800 overflow-hidden">
+            <table className="w-full">
+              <thead className="bg-zinc-900">
+                <tr>
+                  <th className="text-left text-white-60 text-sm font-medium px-6 py-4">Order #</th>
+                  <th className="text-left text-white-60 text-sm font-medium px-6 py-4">Customer</th>
+                  <th className="text-left text-white-60 text-sm font-medium px-6 py-4">Items</th>
+                  <th className="text-left text-white-60 text-sm font-medium px-6 py-4">Total</th>
+                  <th className="text-left text-white-60 text-sm font-medium px-6 py-4">Payment</th>
+                  <th className="text-left text-white-60 text-sm font-medium px-6 py-4">Status</th>
+                  <th className="text-left text-white-60 text-sm font-medium px-6 py-4">Date</th>
+                  <th className="text-right text-white-60 text-sm font-medium px-6 py-4">Action</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-zinc-800">
+                {orders.map((order) => (
+                  <tr key={order._id} className="hover:bg-zinc-800/50">
+                    <td className="px-6 py-4 text-white font-mono text-sm">{order.orderNumber || order._id.slice(-8)}</td>
+                    <td className="px-6 py-4 text-white">
+                      <div>{order.shippingAddress?.firstName} {order.shippingAddress?.lastName}</div>
+                      <div className="text-white-50 text-xs">{order.shippingAddress?.email}</div>
+                    </td>
+                    <td className="px-6 py-4 text-white-60">
+                      {order.products?.length || 0} item(s)
+                    </td>
+                    <td className="px-6 py-4 text-white">₹{order.totalAmount?.toLocaleString()}</td>
+                    <td className="px-6 py-4">
+                      <span className={`px-2 py-1 rounded text-xs ${
+                        order.paymentStatus === 'paid' ? 'bg-green-900 text-green-300' : 
+                        order.paymentStatus === 'failed' ? 'bg-red-900 text-red-300' : 
+                        'bg-yellow-900 text-yellow-300'
+                      }`}>
+                        {order.paymentStatus}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4">
+                      <span className={`px-2 py-1 rounded text-xs ${
+                        order.orderStatus === 'delivered' ? 'bg-green-900 text-green-300' : 
+                        order.orderStatus === 'cancelled' ? 'bg-red-900 text-red-300' : 
+                        order.orderStatus === 'shipped' ? 'bg-blue-900 text-blue-300' : 
+                        'bg-yellow-900 text-yellow-300'
+                      }`}>
+                        {order.orderStatus}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 text-white-60 text-sm">
+                      {new Date(order.createdAt).toLocaleDateString()}
+                    </td>
+                    <td className="px-6 py-4 text-right">
+                      <button
+                        onClick={() => setSelectedOrder(order)}
+                        className="text-white-60 hover:text-white"
+                      >
+                        Manage
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {orders.length === 0 && (
+              <div className="text-center py-12 text-white-50">
+                No orders yet.
+              </div>
+            )}
+          </div>
+        )}
+
+        {activeTab === 'products' && (
+          <div className="bg-zinc-900/50 rounded-xl border border-zinc-800 overflow-hidden">
+          <table className="w-full">
+            <thead className="bg-zinc-900">
+              <tr>
+                <th className="text-left text-white-60 text-sm font-medium px-6 py-4">Image</th>
+                <th className="text-left text-white-60 text-sm font-medium px-6 py-4">Name</th>
+                <th className="text-left text-white-60 text-sm font-medium px-6 py-4">Category</th>
+                <th className="text-left text-white-60 text-sm font-medium px-6 py-4">Price</th>
+                <th className="text-left text-white-60 text-sm font-medium px-6 py-4">Stock</th>
+                <th className="text-right text-white-60 text-sm font-medium px-6 py-4">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-zinc-800">
+              {products.map((product) => (
+                <tr key={product._id} className="hover:bg-zinc-800/50">
+                  <td className="px-6 py-4">
+                    {product.image ? (
+                      <div className="relative w-16 h-16 rounded-lg overflow-hidden bg-zinc-900">
+                        <Image 
+                          src={`${API_BASE_URL}${product.image}`}
+                          alt={product.name}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-16 h-16 rounded-lg bg-zinc-900 flex items-center justify-center">
+                        <span className="text-white-50 text-xs">N/A</span>
+                      </div>
+                    )}
+                  </td>
+                  <td className="px-6 py-4 text-white">{product.name}</td>
+                  <td className="px-6 py-4 text-white-60">{product.category}</td>
+                  <td className="px-6 py-4 text-white">₹{product.price?.toLocaleString()}</td>
+                  <td className="px-6 py-4 text-white-60">{product.stock}</td>
+                  <td className="px-6 py-4 text-right">
+                    <button
+                      onClick={() => openEditForm(product)}
+                      className="text-white-60 hover:text-white mr-4"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(product._id)}
+                      className="text-red-400 hover:text-red-300"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {products.length === 0 && (
+            <div className="text-center py-12 text-white-50">
+              No products found. Add your first product!
+            </div>
+          )}
+        </div>
+        )}
+      </div>
+
+      {selectedOrder && (
+        <div className="fixed inset-0 bg-[#7a4538]/80 flex items-center justify-center z-50 p-4">
+          <div className="bg-zinc-900 rounded-xl border border-zinc-800 w-full max-w-lg max-h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <h2 className="text-2xl text-white font-light mb-6">Manage Order</h2>
+              
+              <div className="space-y-4 text-sm">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-white-50">Order Number</p>
+                    <p className="text-white font-mono">{selectedOrder.orderNumber || selectedOrder._id}</p>
+                  </div>
+                  <div>
+                    <p className="text-white-50">Date</p>
+                    <p className="text-white">{new Date(selectedOrder.createdAt).toLocaleString()}</p>
+                  </div>
+                </div>
+
+                <div>
+                  <p className="text-white-50">Customer</p>
+                  <p className="text-white">{selectedOrder.shippingAddress?.firstName} {selectedOrder.shippingAddress?.lastName}</p>
+                  <p className="text-white-60">{selectedOrder.shippingAddress?.email}</p>
+                  <p className="text-white-60">{selectedOrder.shippingAddress?.phone}</p>
+                </div>
+
+                <div>
+                  <p className="text-white-50">Shipping Address</p>
+                  <p className="text-white">{selectedOrder.shippingAddress?.address}</p>
+                  <p className="text-white-60">{selectedOrder.shippingAddress?.city}, {selectedOrder.shippingAddress?.state} {selectedOrder.shippingAddress?.pincode}</p>
+                </div>
+
+                <div>
+                  <p className="text-white-50">Products</p>
+                  <div className="bg-zinc-900 p-3 rounded">
+                    {(selectedOrder.products || []).map((item: any, idx) => (
+                      <p key={idx} className="text-white">
+                        {item.productId?.name || item.name || 'Product'} x{item.quantity}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-white-50">Total Amount</p>
+                    <p className="text-white text-lg">₹{selectedOrder.totalAmount?.toLocaleString()}</p>
+                  </div>
+                  <div>
+                    <p className="text-white-50">Payment Method</p>
+                    <p className="text-white">{selectedOrder.paymentMethod}</p>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-white-50 text-sm mb-2">Order Status</label>
+                  <select
+                    value={selectedOrder.orderStatus}
+                    onChange={(e) => updateOrderStatus(selectedOrder._id, e.target.value, undefined)}
+                    className="w-full bg-zinc-900 border border-zinc-800 text-white px-4 py-3 focus:outline-none focus:border-white"
+                  >
+                    {ORDER_STATUSES.map(status => (
+                      <option key={status} value={status}>{status}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-white-50 text-sm mb-2">Payment Status</label>
+                  <select
+                    value={selectedOrder.paymentStatus}
+                    onChange={(e) => updateOrderStatus(selectedOrder._id, selectedOrder.orderStatus, e.target.value)}
+                    className="w-full bg-zinc-900 border border-zinc-800 text-white px-4 py-3 focus:outline-none focus:border-white"
+                  >
+                    {PAYMENT_STATUSES.map(status => (
+                      <option key={status} value={status}>{status}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className="flex gap-4 pt-6">
+                <button
+                  onClick={() => setSelectedOrder(null)}
+                  className="flex-1 px-6 py-3 border border-zinc-700 text-white hover:text-white"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {isFormOpen && (
+        <div className="fixed inset-0 bg-[#7a4538]/80 flex items-center justify-center z-50 p-4">
+          <div className="bg-zinc-900 rounded-xl border border-zinc-800 w-full max-w-lg max-h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <h2 className="text-2xl text-white font-light mb-6">
+                {editingProduct ? 'Edit Product' : 'Add New Product'}
+              </h2>
+              
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div>
+                  <label className="block text-white-60 text-sm mb-2">Product Name *</label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    className="w-full bg-zinc-900 border border-zinc-800 text-white px-4 py-3 focus:outline-none focus:border-white"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-white-60 text-sm mb-2">Price *</label>
+                    <input
+                      type="number"
+                      required
+                      value={formData.price}
+                      onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                      className="w-full bg-zinc-900 border border-zinc-800 text-white px-4 py-3 focus:outline-none focus:border-white"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-white-60 text-sm mb-2">Stock *</label>
+                    <input
+                      type="number"
+                      required
+                      value={formData.stock}
+                      onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
+                      className="w-full bg-zinc-900 border border-zinc-800 text-white px-4 py-3 focus:outline-none focus:border-white"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-white-60 text-sm mb-2">Category *</label>
+                  <select
+                    required
+                    value={formData.category}
+                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                    className="w-full bg-zinc-900 border border-zinc-800 text-white px-4 py-3 focus:outline-none focus:border-white"
+                  >
+                    <option value="">Select Category</option>
+                    <option value="Rings">Rings</option>
+                    <option value="Necklaces">Necklaces</option>
+                    <option value="Earrings">Earrings</option>
+                    <option value="Bracelets">Bracelets</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-white-60 text-sm mb-2">Description</label>
+                  <textarea
+                    rows={3}
+                    value={formData.description}
+                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                    className="w-full bg-zinc-900 border border-zinc-800 text-white px-4 py-3 focus:outline-none focus:border-white resize-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-white-60 text-sm mb-2">
+                    Product Image {editingProduct ? '(leave empty to keep current)' : '*'}
+                  </label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    required={!editingProduct}
+                    onChange={(e) => setImageFile(e.target.files?.[0] || null)}
+                    className="w-full bg-white/10 border border-white/20 text-white px-4 py-3 focus:outline-none focus:border-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-white file:text-[#9b5a4a] file:font-medium"
+                  />
+                </div>
+
+                <div className="flex gap-4 pt-4">
+                  <button
+                    type="submit"
+                    disabled={uploading}
+                    className="flex-1 bg-[#9b5a4a] text-white py-3 font-medium uppercase tracking-wider hover:bg-[#7a4538] disabled:opacity-50"
+                  >
+                    {uploading ? 'Saving...' : (editingProduct ? 'Update Product' : 'Add Product')}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={closeForm}
+                    className="px-6 py-3 border border-zinc-700 text-white-60 hover:text-white"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

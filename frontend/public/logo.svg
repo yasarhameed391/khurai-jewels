@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 280" width="200" height="280">
+  <defs>
+    <linearGradient id="whiteGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFFFFF"/>
+      <stop offset="50%" style="stop-color:#F5F5F5"/>
+      <stop offset="100%" style="stop-color:#E0E0E0"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Upright pill shape -->
+  <rect x="25" y="10" width="150" height="260" rx="75" ry="75" fill="#9b5a4a"/>
+  
+  <!-- Inner border -->
+  <rect x="30" y="15" width="140" height="250" rx="70" ry="70" fill="none" stroke="url(#whiteGrad)" stroke-width="1.5" opacity="0.6"/>
+  
+  <!-- KJ text -->
+  <text x="100" y="130" font-family="Playfair Display, Georgia, serif" font-size="55" font-weight="400" fill="url(#whiteGrad)" text-anchor="middle" letter-spacing="2">KJ</text>
+  
+  <!-- KHURAI JEWELS -->
+  <text x="100" y="220" font-family="Playfair Display, Georgia, serif" font-size="22" font-weight="400" fill="url(#whiteGrad)" text-anchor="middle" letter-spacing="2">KHURAI JEWELS</text>
+  
+  <!-- Divider -->
+  <line x1="60" y1="235" x2="140" y2="235" stroke="url(#whiteGrad)" stroke-width="1" opacity="0.8"/>
+  
+  <!-- Tagline -->
+  <text x="100" y="255" font-family="Playfair Display, Georgia, serif" font-size="10" font-weight="400" fill="url(#whiteGrad)" text-anchor="middle" letter-spacing="3">ADORN YOUR EVERYDAY</text>
+</svg>

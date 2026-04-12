@@ -1,0 +1,122 @@
+@import "tailwindcss";
+
+:root {
+  --background: #9b5a4a;
+  --foreground: #ffffff;
+  --terracotta: #9b5a4a;
+  --terracotta-dark: #7a4538;
+  --terracotta-darker: #5c3528;
+  --terracotta-light: #b87060;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-playfair), 'Playfair Display', Georgia, serif;
+}
+
+/* Force Playfair Display for all text elements */
+* {
+  font-family: inherit;
+}
+
+h1, h2, h3, h4, h5, h6, p, span, a, button, input, textarea, select, li, td, th, label {
+  font-family: var(--font-playfair), 'Playfair Display', Georgia, serif !important;
+}
+
+/* Primary button - terracotta with white text */
+.bg-primary {
+  background-color: #9b5a4a;
+  color: white;
+}
+.hover\:bg-primary:hover {
+  background-color: #7a4538;
+}
+
+/* Secondary button - white with terracotta text */
+.bg-secondary {
+  background-color: white;
+  color: #9b5a4a;
+}
+.hover\:bg-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* Override existing button classes */
+.bg-white { background-color: #FFFFFF; }
+.text-white { color: #FFFFFF; }
+.bg-white\/10 { background-color: rgba(255, 255, 255, 0.1); }
+
+/* Subtle text colors - white with opacity */
+.text-white-70 { color: rgba(255, 255, 255, 0.7); }
+.text-white-60 { color: rgba(255, 255, 255, 0.6); }
+.text-white-50 { color: rgba(255, 255, 255, 0.5); }
+.text-white-40 { color: rgba(255, 255, 255, 0.4); }
+
+/* Input field styles */
+input, textarea, select {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+}
+input:focus, textarea:focus, select:focus {
+  border-color: #FFFFFF;
+  outline: none;
+}
+input::placeholder, textarea::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Animation */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up { animation: fadeInUp 0.6s ease-out forwards; }
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+
+/* Zinc colors mapped to white opacity */
+.bg-zinc-900 { background-color: rgba(255, 255, 255, 0.1); }
+.bg-zinc-800 { background-color: rgba(255, 255, 255, 0.15); }
+.bg-zinc-700 { background-color: rgba(255, 255, 255, 0.2); }
+.bg-zinc-950 { background-color: rgba(255, 255, 255, 0.05); }
+.bg-zinc-900\/50 { background-color: rgba(255, 255, 255, 0.05); }
+.bg-zinc-900\/30 { background-color: rgba(255, 255, 255, 0.03); }
+
+.border-zinc-800 { border-color: rgba(255, 255, 255, 0.15); }
+.border-zinc-700 { border-color: rgba(255, 255, 255, 0.2); }
+.border-zinc-600 { border-color: rgba(255, 255, 255, 0.3); }
+
+.text-zinc-400 { color: rgba(255, 255, 255, 0.6); }
+.text-zinc-500 { color: rgba(255, 255, 255, 0.5); }
+.text-zinc-600 { color: rgba(255, 255, 255, 0.4); }
+
+.hover\:text-white:hover { color: #FFFFFF; }
+.hover\:bg-white:hover { background-color: rgba(255, 255, 255, 0.1); }
+.hover\:bg-zinc-800:hover { background-color: rgba(255, 255, 255, 0.2); }
+.hover\:bg-zinc-700:hover { background-color: rgba(255, 255, 255, 0.25); }
+
+/* Focus states - use white instead of amber */
+.focus\:border-white:focus { border-color: #FFFFFF; }
+.focus\:border-amber-400:focus { border-color: #FFFFFF; }
+
+/* Amber references */
+.text-amber-300 { color: rgba(255, 255, 255, 0.7); }
+.bg-amber-400\/10 { background-color: rgba(255, 255, 255, 0.1); }
+.hover\:text-amber-300:hover { color: #FFFFFF; }
+.hover\:bg-amber-300:hover { background-color: rgba(255, 255, 255, 0.2); }
+.from-amber-400 { --gradient-from: #FFFFFF; }
+.to-amber-500 { --gradient-to: rgba(255, 255, 255, 0.9); }
+.hover\:from-amber-300:hover { --gradient-from: rgba(255, 255, 255, 0.9); }
+.hover\:to-amber-400:hover { --gradient-to: rgba(255, 255, 255, 0.8); }
+.shadow-amber-400\/20 { box-shadow: 0 0 20px rgba(255, 255, 255, 0.2); }
+
+/* Gray colors */
+.text-gray-300 { color: rgba(255, 255, 255, 0.7); }
+.text-gray-400 { color: rgba(255, 255, 255, 0.6); }
+.text-gray-500 { color: rgba(255, 255, 255, 0.5); }
+.hover\:text-gray-300:hover { color: rgba(255, 255, 255, 0.7); }
+.hover\:text-gray-400:hover { color: rgba(255, 255, 255, 0.6); }
+.placeholder-gray-400::placeholder { color: rgba(255, 255, 255, 0.5); }

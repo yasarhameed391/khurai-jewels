@@ -13,6 +13,10 @@ class ProductRepository extends BaseRepository {
   async searchByName(name) {
     return this.model.find({ name: { $regex: name, $options: 'i' } });
   }
+
+  async findBySlug(slug) {
+    return this.model.findOne({ slug });
+  }
 }
 
 module.exports = new ProductRepository();
