@@ -5,6 +5,11 @@ const nextConfig: NextConfig = {
     unoptimized: true,
     remotePatterns: [
       {
+        protocol: 'https',
+        hostname: 'khurai-jewels.onrender.com',
+        pathname: '/uploads/**',
+      },
+      {
         protocol: 'http',
         hostname: 'localhost',
         port: '3001',
