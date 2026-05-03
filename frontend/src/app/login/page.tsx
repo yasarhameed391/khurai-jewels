@@ -36,12 +36,12 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#7a4538] pt-28 pb-16">
+    <div className="min-h-screen bg-[#8F4B43] pt-28 pb-16">
       <div className="max-w-md mx-auto px-4">
-        <div className="bg-zinc-900/50 rounded-xl border border-zinc-800 p-8">
+        <div className="bg-[#8F4B43]/50/50 rounded-xl border border-[#F5EDE6]/20 p-8">
           <div className="text-center mb-8">
-            <h1 className="text-3xl text-white font-light">Welcome Back</h1>
-            <p className="text-white-60 mt-2">Sign in to your account</p>
+            <h1 className="text-3xl text-[#F5EDE6] font-light">Welcome Back</h1>
+            <p className="text-[#F5EDE6]/60 mt-2">Sign in to your account</p>
           </div>
 
           <div className="flex gap-2 mb-6">
@@ -49,7 +49,7 @@ export default function LoginPage() {
               type="button"
               onClick={() => setIsAdmin(false)}
               className={`flex-1 py-2 text-sm font-medium uppercase tracking-wider transition-colors ${
-                !isAdmin ? 'bg-[#9b5a4a] text-white hover:bg-[#7a4538]' : 'bg-white/20 text-white-60 hover:text-white hover:bg-white/10'
+                !isAdmin ? 'bg-[#5C2E28] text-[#F5EDE6] hover:bg-[#5C2E28]' : 'bg-[#F5EDE6]/20 text-[#F5EDE6]/60 hover:text-[#F5EDE6] hover:bg-[#F5EDE6]/10'
               }`}
             >
               Customer
@@ -58,7 +58,7 @@ export default function LoginPage() {
               type="button"
               onClick={() => setIsAdmin(true)}
               className={`flex-1 py-2 text-sm font-medium uppercase tracking-wider transition-colors ${
-                isAdmin ? 'bg-[#9b5a4a] text-white hover:bg-[#7a4538]' : 'bg-white/20 text-white-60 hover:text-white hover:bg-white/10'
+                isAdmin ? 'bg-[#5C2E28] text-[#F5EDE6] hover:bg-[#5C2E28]' : 'bg-[#F5EDE6]/20 text-[#F5EDE6]/60 hover:text-[#F5EDE6] hover:bg-[#F5EDE6]/10'
               }`}
             >
               Admin
@@ -67,25 +67,25 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-white-60 text-sm mb-2">Email</label>
+              <label className="block text-[#F5EDE6]/60 text-sm mb-2">Email</label>
               <input
                 type="email"
                 required
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full bg-zinc-900 border border-zinc-800 text-white px-4 py-3 focus:outline-none focus:border-white transition-colors"
+                className="w-full bg-[#8F4B43]/50 border border-[#F5EDE6]/20 text-[#F5EDE6] px-4 py-3 focus:outline-none focus:border-[#F5EDE6] transition-colors"
                 placeholder="your@email.com"
               />
             </div>
 
             <div>
-              <label className="block text-white-60 text-sm mb-2">Password</label>
+              <label className="block text-[#F5EDE6]/60 text-sm mb-2">Password</label>
               <input
                 type="password"
                 required
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                className="w-full bg-zinc-900 border border-zinc-800 text-white px-4 py-3 focus:outline-none focus:border-white transition-colors"
+                className="w-full bg-[#8F4B43]/50 border border-[#F5EDE6]/20 text-[#F5EDE6] px-4 py-3 focus:outline-none focus:border-[#F5EDE6] transition-colors"
                 placeholder="••••••••"
               />
             </div>
@@ -93,7 +93,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#9b5a4a] text-white py-4 font-medium uppercase tracking-wider hover:bg-[#7a4538] transition-opacity disabled:opacity-50"
+              className="w-full bg-[#5C2E28] text-[#F5EDE6] py-4 font-medium uppercase tracking-wider hover:bg-[#5C2E28] transition-opacity disabled:opacity-50"
             >
               {loading ? 'Signing in...' : 'Sign In'}
             </button>
@@ -101,9 +101,9 @@ export default function LoginPage() {
 
           {!isAdmin && (
             <div className="mt-6 text-center">
-              <p className="text-white-60">
+              <p className="text-[#F5EDE6]/60">
                 Don't have an account?{' '}
-                <Link href="/register" className="text-white hover:underline">
+                <Link href="/register" className="text-[#F5EDE6] hover:underline">
                   Create one
                 </Link>
               </p>
@@ -111,7 +111,7 @@ export default function LoginPage() {
           )}
 
           <div className="mt-6 text-center">
-            <Link href="/" className="text-zinc-500 hover:text-white text-sm">
+            <Link href="/" className="text-[#F5EDE6]/60 hover:text-[#F5EDE6] text-sm">
               Continue as Guest →
             </Link>
           </div>

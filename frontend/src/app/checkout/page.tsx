@@ -177,16 +177,16 @@ export default function CheckoutPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#7a4538] pt-28 pb-16 flex items-center justify-center">
-        <div className="text-white">Loading...</div>
+      <div className="min-h-screen bg-[#8F4B43] pt-28 pb-16 flex items-center justify-center">
+        <div className="text-[#F5EDE6]">Loading...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#7a4538] pt-28 pb-16">
+    <div className="min-h-screen bg-[#8F4B43] pt-28 pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl text-white font-light mb-10">Checkout</h1>
+        <h1 className="text-3xl text-[#F5EDE6] font-light mb-10">Checkout</h1>
 
         {error && (
           <div className="bg-red-500/10 border border-red-500 text-red-400 px-4 py-3 rounded-lg mb-6">
@@ -196,91 +196,91 @@ export default function CheckoutPage() {
 
         <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div className="space-y-8">
-            <div className="bg-zinc-900/50 rounded-xl border border-zinc-800 p-6">
-              <h2 className="text-xl text-white font-light mb-6">Shipping Information</h2>
+            <div className="bg-[#8F4B43]/50/50 rounded-xl border border-[#F5EDE6]/20 p-6">
+              <h2 className="text-xl text-[#F5EDE6] font-light mb-6">Shipping Information</h2>
               <div className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-white-60 text-sm mb-2">Full Name *</label>
+                    <label className="block text-[#F5EDE6]/60 text-sm mb-2">Full Name *</label>
                     <input
                       type="text"
                       required
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full bg-zinc-900 border border-zinc-800 text-white px-4 py-3 focus:outline-none focus:border-white transition-colors"
+                      className="w-full bg-[#8F4B43]/50 border border-[#F5EDE6]/20 text-[#F5EDE6] px-4 py-3 focus:outline-none focus:border-[#F5EDE6] transition-colors"
                     />
                   </div>
                   <div>
-                    <label className="block text-white-60 text-sm mb-2">Email *</label>
+                    <label className="block text-[#F5EDE6]/60 text-sm mb-2">Email *</label>
                     <input
                       type="email"
                       required={!isLoggedIn()}
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full bg-zinc-900 border border-zinc-800 text-white px-4 py-3 focus:outline-none focus:border-white transition-colors"
+                      className="w-full bg-[#8F4B43]/50 border border-[#F5EDE6]/20 text-[#F5EDE6] px-4 py-3 focus:outline-none focus:border-[#F5EDE6] transition-colors"
                     />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-white-60 text-sm mb-2">Phone *</label>
+                  <label className="block text-[#F5EDE6]/60 text-sm mb-2">Phone *</label>
                   <input
                     type="tel"
                     required
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full bg-zinc-900 border border-zinc-800 text-white px-4 py-3 focus:outline-none focus:border-white transition-colors"
+                    className="w-full bg-[#8F4B43]/50 border border-[#F5EDE6]/20 text-[#F5EDE6] px-4 py-3 focus:outline-none focus:border-[#F5EDE6] transition-colors"
                   />
                 </div>
                 <div>
-                  <label className="block text-white-60 text-sm mb-2">Street Address *</label>
+                  <label className="block text-[#F5EDE6]/60 text-sm mb-2">Street Address *</label>
                   <input
                     type="text"
                     required
                     value={formData.street}
                     onChange={(e) => setFormData({ ...formData, street: e.target.value })}
-                    className="w-full bg-zinc-900 border border-zinc-800 text-white px-4 py-3 focus:outline-none focus:border-white transition-colors"
+                    className="w-full bg-[#8F4B43]/50 border border-[#F5EDE6]/20 text-[#F5EDE6] px-4 py-3 focus:outline-none focus:border-[#F5EDE6] transition-colors"
                   />
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                   <div>
-                    <label className="block text-white-60 text-sm mb-2">City *</label>
+                    <label className="block text-[#F5EDE6]/60 text-sm mb-2">City *</label>
                     <input
                       type="text"
                       required
                       value={formData.city}
                       onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                      className="w-full bg-zinc-900 border border-zinc-800 text-white px-4 py-3 focus:outline-none focus:border-white transition-colors"
+                      className="w-full bg-[#8F4B43]/50 border border-[#F5EDE6]/20 text-[#F5EDE6] px-4 py-3 focus:outline-none focus:border-[#F5EDE6] transition-colors"
                     />
                   </div>
                   <div>
-                    <label className="block text-white-60 text-sm mb-2">State *</label>
+                    <label className="block text-[#F5EDE6]/60 text-sm mb-2">State *</label>
                     <input
                       type="text"
                       required
                       value={formData.state}
                       onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-                      className="w-full bg-zinc-900 border border-zinc-800 text-white px-4 py-3 focus:outline-none focus:border-white transition-colors"
+                      className="w-full bg-[#8F4B43]/50 border border-[#F5EDE6]/20 text-[#F5EDE6] px-4 py-3 focus:outline-none focus:border-[#F5EDE6] transition-colors"
                     />
                   </div>
                   <div>
-                    <label className="block text-white-60 text-sm mb-2">PIN Code *</label>
+                    <label className="block text-[#F5EDE6]/60 text-sm mb-2">PIN Code *</label>
                     <input
                       type="text"
                       required
                       value={formData.pincode}
                       onChange={(e) => setFormData({ ...formData, pincode: e.target.value })}
-                      className="w-full bg-zinc-900 border border-zinc-800 text-white px-4 py-3 focus:outline-none focus:border-white transition-colors"
+                      className="w-full bg-[#8F4B43]/50 border border-[#F5EDE6]/20 text-[#F5EDE6] px-4 py-3 focus:outline-none focus:border-[#F5EDE6] transition-colors"
                     />
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="bg-zinc-900/50 rounded-xl border border-zinc-800 p-6">
-              <h2 className="text-xl text-white font-light mb-6">Payment Method</h2>
+            <div className="bg-[#8F4B43]/50/50 rounded-xl border border-[#F5EDE6]/20 p-6">
+              <h2 className="text-xl text-[#F5EDE6] font-light mb-6">Payment Method</h2>
               
               <div className="space-y-3">
-                <label className="flex items-center justify-between p-4 border border-zinc-800 rounded-lg cursor-pointer hover:border-white/30 transition-colors">
+                <label className="flex items-center justify-between p-4 border border-[#F5EDE6]/20 rounded-lg cursor-pointer hover:border-[#F5EDE6]/30 transition-colors">
                   <div className="flex items-center gap-3">
                     <input
                       type="radio"
@@ -291,14 +291,14 @@ export default function CheckoutPage() {
                       className="w-4 h-4 text-[#9b5a4a]"
                     />
                     <div>
-                      <p className="text-white">Cash on Delivery</p>
-                      <p className="text-white-50 text-sm">Pay when you receive your order</p>
+                      <p className="text-[#F5EDE6]">Cash on Delivery</p>
+                      <p className="text-[#F5EDE6]/50 text-sm">Pay when you receive your order</p>
                     </div>
                   </div>
                 </label>
 
                 {razorpayKey && (
-                  <label className="flex items-center justify-between p-4 border border-zinc-800 rounded-lg cursor-pointer hover:border-white/30 transition-colors">
+                  <label className="flex items-center justify-between p-4 border border-[#F5EDE6]/20 rounded-lg cursor-pointer hover:border-[#F5EDE6]/30 transition-colors">
                     <div className="flex items-center gap-3">
                       <input
                         type="radio"
@@ -309,11 +309,11 @@ export default function CheckoutPage() {
                         className="w-4 h-4 text-[#9b5a4a]"
                       />
                       <div>
-                        <p className="text-white">Pay Online (Razorpay)</p>
-                        <p className="text-white-50 text-sm">Secure payment with card/UPI/netbanking</p>
+                        <p className="text-[#F5EDE6]">Pay Online (Razorpay)</p>
+                        <p className="text-[#F5EDE6]/50 text-sm">Secure payment with card/UPI/netbanking</p>
                       </div>
                     </div>
-                    <svg className="w-8 h-8 text-white-50" viewBox="0 0 24 24" fill="currentColor">
+                    <svg className="w-8 h-8 text-[#F5EDE6]/50" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
                     </svg>
                   </label>
@@ -323,45 +323,45 @@ export default function CheckoutPage() {
           </div>
 
           <div>
-            <div className="bg-zinc-900/50 rounded-xl border border-zinc-800 p-6 sticky top-28">
-              <h2 className="text-xl text-white font-light mb-6">Order Summary</h2>
+            <div className="bg-[#8F4B43]/50/50 rounded-xl border border-[#F5EDE6]/20 p-6 sticky top-28">
+              <h2 className="text-xl text-[#F5EDE6] font-light mb-6">Order Summary</h2>
               
               <div className="space-y-4 mb-6">
                 {items.map((item) => (
                   <div key={item._id} className="flex justify-between text-sm">
-                    <span className="text-white-60">{item.name} x {item.quantity}</span>
-                    <span className="text-white">₹{(item.price * item.quantity).toLocaleString()}</span>
+                    <span className="text-[#F5EDE6]/60">{item.name} x {item.quantity}</span>
+                    <span className="text-[#F5EDE6]">₹{(item.price * item.quantity).toLocaleString()}</span>
                   </div>
                 ))}
               </div>
 
-              <div className="border-t border-zinc-800 pt-4 space-y-2">
-                <div className="flex justify-between text-white-60">
+              <div className="border-t border-[#F5EDE6]/20 pt-4 space-y-2">
+                <div className="flex justify-between text-[#F5EDE6]/60">
                   <span>Subtotal</span>
-                  <span className="text-white">₹{subtotal.toLocaleString()}</span>
+                  <span className="text-[#F5EDE6]">₹{subtotal.toLocaleString()}</span>
                 </div>
-                <div className="flex justify-between text-white-60">
+                <div className="flex justify-between text-[#F5EDE6]/60">
                   <span>Shipping</span>
-                  <span className={shipping === 0 ? 'text-green-400' : 'text-white'}>
+                  <span className={shipping === 0 ? 'text-green-400' : 'text-[#F5EDE6]'}>
                     {shipping === 0 ? 'Free' : `₹${shipping}`}
                   </span>
                 </div>
               </div>
 
-              <div className="flex justify-between py-4 border-t border-zinc-800 mt-4">
-                <span className="text-white text-lg">Total</span>
-                <span className="text-white text-2xl font-light">₹{total.toLocaleString()}</span>
+              <div className="flex justify-between py-4 border-t border-[#F5EDE6]/20 mt-4">
+                <span className="text-[#F5EDE6] text-lg">Total</span>
+                <span className="text-[#F5EDE6] text-2xl font-light">₹{total.toLocaleString()}</span>
               </div>
 
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full bg-[#9b5a4a] text-white py-4 font-medium uppercase tracking-wider hover:bg-[#7a4538] transition-all disabled:opacity-50"
+                className="w-full bg-[#5C2E28] text-[#F5EDE6] py-4 font-medium uppercase tracking-wider hover:bg-[#8F4B43] transition-all disabled:opacity-50"
               >
                 {submitting ? 'Processing...' : 'Place Order'}
               </button>
 
-              <p className="mt-4 text-zinc-500 text-xs text-center">
+              <p className="mt-4 text-[#F5EDE6]/60 text-xs text-center">
                 Secure checkout powered by Stripe
               </p>
             </div>

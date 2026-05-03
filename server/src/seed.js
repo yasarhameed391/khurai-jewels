@@ -15,22 +15,36 @@ const products = [
   { name: 'Sapphire Ring', price: 59999, description: 'Blue sapphire cocktail ring', image: '', category: 'Rings', stock: 10 }
 ];
 
+const generateSlug = (name) => {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '')
+    + '-' + Date.now().toString(36);
+};
+
 const seedDatabase = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI);
+    await mongoose.connect(process.env.MONGODB_URI);
     console.log('Connected to MongoDB');
 
     await Product.deleteMany({});
-    const inserted = await Product.insertMany(products);
+    console.log('Cleared existing products');
+    
+    const productsWithSlug = products.map(p => ({
+      ...p,
+      slug: generateSlug(p.name)
+    }));
+    
+    const inserted = await Product.insertMany(productsWithSlug);
     console.log(`${inserted.length} products seeded successfully`);
 
     const existingAdmin = await User.findOne({ email: 'thasnihameed.0305@gmail.com' });
     if (!existingAdmin) {
-      const hashedPassword = await bcrypt.hash('admin123', 10);
       await User.create({
         name: 'Admin',
         email: 'thasnihameed.0305@gmail.com',
-        password: hashedPassword,
+        password: 'admin123',
         role: 'admin'
       });
       console.log('Admin user created: thasnihameed.0305@gmail.com / admin123');

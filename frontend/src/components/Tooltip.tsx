@@ -35,7 +35,7 @@ export default function Tooltip({ children, content }: TooltipProps) {
     >
       {children}
       {isVisible && (
-        <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1.5 bg-zinc-800 text-white text-xs whitespace-nowrap rounded-md shadow-lg border border-zinc-700 z-50">
+        <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1.5 bg-[#8F4B43]/50 text-[#F5EDE6] text-xs whitespace-nowrap rounded-md shadow-lg border border-[#F5EDE6]/20 z-50">
           {content}
           <div className="absolute bottom-full left-1/2 -translate-x-1/2 border-4 border-transparent border-b-zinc-800" />
         </div>

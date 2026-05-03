@@ -52,16 +52,16 @@ export default function WishlistPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#7a4538] pt-28 pb-16">
+      <div className="min-h-screen bg-[#8F4B43] pt-28 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="animate-pulse space-y-6">
             {[1, 2, 3].map(i => (
-              <div key={i} className="flex gap-6 p-6 bg-zinc-900 rounded-xl">
-                <div className="w-32 h-32 bg-zinc-800 rounded-lg" />
+              <div key={i} className="flex gap-6 p-6 bg-[#8F4B43]/50 rounded-xl">
+                <div className="w-32 h-32 bg-[#8F4B43]/50 rounded-lg" />
                 <div className="flex-1 space-y-3">
-                  <div className="h-4 bg-zinc-800 rounded w-1/4" />
-                  <div className="h-6 bg-zinc-800 rounded w-1/2" />
-                  <div className="h-4 bg-zinc-800 rounded w-1/4" />
+                  <div className="h-4 bg-[#8F4B43]/50 rounded w-1/4" />
+                  <div className="h-6 bg-[#8F4B43]/50 rounded w-1/2" />
+                  <div className="h-4 bg-[#8F4B43]/50 rounded w-1/4" />
                 </div>
               </div>
             ))}
@@ -72,22 +72,22 @@ export default function WishlistPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#7a4538] pt-28 pb-16">
+    <div className="min-h-screen bg-[#8F4B43] pt-28 pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl text-white font-light mb-10">My Wishlist</h1>
+        <h1 className="text-3xl text-[#F5EDE6] font-light mb-10">My Wishlist</h1>
 
         {products.length === 0 ? (
           <div className="text-center py-20">
-            <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-zinc-900 flex items-center justify-center">
-              <svg className="w-10 h-10 text-white-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-[#8F4B43]/50 flex items-center justify-center">
+              <svg className="w-10 h-10 text-[#F5EDE6]/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
               </svg>
             </div>
-            <h2 className="text-xl text-white font-light mb-2">Your wishlist is empty</h2>
-            <p className="text-zinc-400 mb-8">Save your favorite items to revisit later</p>
+            <h2 className="text-xl text-[#F5EDE6] font-light mb-2">Your wishlist is empty</h2>
+            <p className="text-[#F5EDE6]/60 mb-8">Save your favorite items to revisit later</p>
             <Link 
               href="/products"
-              className="inline-block bg-[#9b5a4a] text-white px-8 py-3 font-medium uppercase tracking-wider hover:bg-[#7a4538] transition-opacity"
+              className="inline-block bg-[#8F4B43] text-[#F5EDE6] px-8 py-3 font-medium uppercase tracking-wider hover:bg-[#8F4B43] transition-opacity"
             >
               Browse Products
             </Link>
@@ -97,10 +97,10 @@ export default function WishlistPage() {
             {products.map((product) => (
               <div 
                 key={product._id}
-                className="flex flex-col sm:flex-row gap-6 p-6 bg-zinc-900/50 rounded-xl border border-zinc-800"
+                className="flex flex-col sm:flex-row gap-6 p-6 bg-[#8F4B43]/50/50 rounded-xl border border-[#F5EDE6]/20"
               >
                 <Link href={`/products/${product.slug || product._id}`} className="flex-shrink-0">
-                  <div className="relative w-32 h-32 rounded-lg overflow-hidden bg-zinc-900">
+                  <div className="relative w-32 h-32 rounded-lg overflow-hidden bg-[#8F4B43]/50">
                     {product.image ? (
                       <Image 
                         src={`${API_BASE_URL}${product.image}`}
@@ -122,15 +122,15 @@ export default function WishlistPage() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-4">
                     <div>
-                      <p className="text-white text-xs tracking-[0.2em] uppercase mb-2">{product.category}</p>
+                      <p className="text-[#F5EDE6] text-xs tracking-[0.2em] uppercase mb-2">{product.category}</p>
                       <Link href={`/products/${product.slug || product._id}`}>
-                        <h3 className="text-white text-lg font-light hover:text-white transition-colors">{product.name}</h3>
+                        <h3 className="text-[#F5EDE6] text-lg font-light hover:text-[#F5EDE6] transition-colors">{product.name}</h3>
                       </Link>
-                      <p className="text-white text-xl font-light mt-2">₹{product.price?.toLocaleString()}</p>
+                      <p className="text-[#F5EDE6] text-xl font-light mt-2">₹{product.price?.toLocaleString()}</p>
                     </div>
                     <button
                       onClick={() => handleRemove(product._id)}
-                      className="p-2 text-white-50 hover:text-red-400 transition-colors"
+                      className="p-2 text-[#F5EDE6]/50 hover:text-red-400 transition-colors"
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
@@ -147,7 +147,7 @@ export default function WishlistPage() {
                   <div className="mt-4">
                     <Link 
                       href={`/products/${product.slug || product._id}`}
-                      className="inline-block bg-[#9b5a4a] text-white px-6 py-2 text-sm font-medium uppercase tracking-wider hover:bg-[#7a4538] transition-opacity"
+                      className="inline-block bg-[#8F4B43] text-[#F5EDE6] px-6 py-2 text-sm font-medium uppercase tracking-wider hover:bg-[#8F4B43] transition-opacity"
                     >
                       View Details
                     </Link>

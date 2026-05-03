@@ -39,7 +39,9 @@ export default function ProductDetailPage() {
   const [isWishlisted, setIsWishlisted] = useState(false);
 
   useEffect(() => {
-    loadProduct();
+    if (params.id) {
+      loadProduct();
+    }
   }, [params.id]);
 
   useEffect(() => {
@@ -85,22 +87,22 @@ export default function ProductDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#7a4538] pt-28 pb-16">
+      <div className="min-h-screen bg-[#8F4B43] pt-28 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <div className="space-y-4">
-              <div className="aspect-square bg-zinc-800 rounded-xl animate-pulse" />
+              <div className="aspect-square bg-[#8F4B43]/50 rounded-xl animate-pulse" />
               <div className="flex gap-4">
                 {[...Array(4)].map((_, i) => (
-                  <div key={i} className="w-20 h-20 bg-zinc-800 rounded-lg animate-pulse" />
+                  <div key={i} className="w-20 h-20 bg-[#8F4B43]/50 rounded-lg animate-pulse" />
                 ))}
               </div>
             </div>
             <div className="space-y-6">
-              <div className="h-4 bg-zinc-800 rounded w-24 animate-pulse" />
-              <div className="h-10 bg-zinc-800 rounded w-3/4 animate-pulse" />
-              <div className="h-8 bg-zinc-800 rounded w-32 animate-pulse" />
-              <div className="h-24 bg-zinc-800 rounded animate-pulse" />
+              <div className="h-4 bg-[#8F4B43]/50 rounded w-24 animate-pulse" />
+              <div className="h-10 bg-[#8F4B43]/50 rounded w-3/4 animate-pulse" />
+              <div className="h-8 bg-[#8F4B43]/50 rounded w-32 animate-pulse" />
+              <div className="h-24 bg-[#8F4B43]/50 rounded animate-pulse" />
             </div>
           </div>
         </div>
@@ -110,10 +112,10 @@ export default function ProductDetailPage() {
 
   if (error || !product) {
     return (
-      <div className="min-h-screen bg-[#7a4538] pt-28 pb-16">
+      <div className="min-h-screen bg-[#8F4B43] pt-28 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-20">
-          <p className="text-red-400 text-lg mb-4">{error || 'Product not found'}</p>
-          <Link href="/products" className="text-white hover:text-white inline-block text-sm uppercase tracking-wider">
+          <p className="text-[#F5EDE6]/60 text-lg mb-4">{error || 'Product not found'}</p>
+          <Link href="/products" className="text-[#F5EDE6] hover:text-[#F5EDE6] inline-block text-sm uppercase tracking-wider">
             ← Back to Products
           </Link>
         </div>
@@ -124,23 +126,23 @@ export default function ProductDetailPage() {
   const images = product.image ? [`${API_BASE_URL}${product.image}`] : [defaultImage];
 
   return (
-    <div className="min-h-screen bg-[#7a4538] pt-28 pb-16">
+    <div className="min-h-screen bg-[#8F4B43] pt-28 pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb */}
-        <nav className="flex items-center gap-3 text-sm text-zinc-500 mb-10">
-          <Link href="/" className="hover:text-white transition-colors">Home</Link>
+        <nav className="flex items-center gap-3 text-sm text-[#F5EDE6]/50 mb-10">
+          <Link href="/" className="hover:text-[#F5EDE6] transition-colors">Home</Link>
           <span>/</span>
-          <Link href="/products" className="hover:text-white transition-colors">Shop</Link>
+          <Link href="/products" className="hover:text-[#F5EDE6] transition-colors">Shop</Link>
           <span>/</span>
-          <Link href={`/products?category=${product.category}`} className="hover:text-white transition-colors">{product.category}</Link>
+          <Link href={`/products?category=${product.category}`} className="hover:text-[#F5EDE6] transition-colors">{product.category}</Link>
           <span>/</span>
-          <span className="text-white truncate max-w-[200px]">{product.name}</span>
+          <span className="text-[#F5EDE6] truncate max-w-[200px]">{product.name}</span>
         </nav>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
           {/* Image Gallery */}
           <div className="space-y-4">
-            <div className="relative aspect-square rounded-xl overflow-hidden bg-zinc-900">
+            <div className="relative aspect-square rounded-xl overflow-hidden bg-[#8F4B43]/50">
               {images[selectedImage].startsWith(API_BASE_URL) ? (
                 <Image 
                   src={images[selectedImage]}
@@ -157,7 +159,7 @@ export default function ProductDetailPage() {
                 />
               )}
               {product.stock === 0 && (
-                <div className="absolute top-4 left-4 bg-red-500 text-white text-xs px-3 py-1 uppercase tracking-wider">
+                <div className="absolute top-4 left-4 bg-red-500 text-[#F5EDE6] text-xs px-3 py-1 uppercase tracking-wider">
                   Sold Out
                 </div>
               )}
@@ -165,10 +167,10 @@ export default function ProductDetailPage() {
                 <Tooltip content={isWishlisted ? 'Remove from Wishlist' : 'Add to Wishlist'}>
                   <button 
                     onClick={toggleWishlist}
-                    className="p-3 bg-[#7a4538]/50 backdrop-blur-sm rounded-full hover:bg-[#7a4538]/70 transition-colors"
+                    className="p-3 bg-[#8F4B43]/50 backdrop-blur-sm rounded-full hover:bg-[#8F4B43]/70 transition-colors"
                   >
                     <svg 
-                      className={`w-5 h-5 transition-colors ${isWishlisted ? 'text-red-500 fill-red-500' : 'text-white'}`} 
+                      className={`w-5 h-5 transition-colors ${isWishlisted ? 'text-red-500 fill-red-500' : 'text-[#F5EDE6]'}`} 
                       fill={isWishlisted ? 'currentColor' : 'none'} 
                       stroke="currentColor" 
                       viewBox="0 0 24 24"
@@ -187,7 +189,7 @@ export default function ProductDetailPage() {
                   key={idx}
                   onClick={() => setSelectedImage(idx)}
                   className={`flex-shrink-0 relative w-20 h-20 rounded-lg overflow-hidden border-2 transition-colors ${
-                    selectedImage === idx ? 'border-white' : 'border-transparent hover:border-zinc-700'
+                    selectedImage === idx ? 'border-[#F5EDE6]' : 'border-transparent hover:border-[#F5EDE6]/20'
                   }`}
                 >
                   <Image src={img} alt={`View ${idx + 1}`} fill className="object-cover" />
@@ -199,37 +201,37 @@ export default function ProductDetailPage() {
           {/* Product Info */}
           <div className="lg:py-4">
             <div className="mb-6">
-              <span className="text-white text-xs font-medium tracking-[0.3em] uppercase">{product.category}</span>
+              <span className="text-[#F5EDE6] text-xs font-medium tracking-[0.3em] uppercase">{product.category}</span>
             </div>
             
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl text-white font-light mb-6">{product.name}</h1>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl text-[#F5EDE6] font-light mb-6">{product.name}</h1>
             
             <div className="flex items-baseline gap-4 mb-8">
-              <span className="text-3xl sm:text-4xl text-white font-light">₹{product.price?.toLocaleString()}</span>
+              <span className="text-3xl sm:text-4xl text-[#F5EDE6] font-light">₹{product.price?.toLocaleString()}</span>
               {product.price > 50000 && (
-                <span className="text-xs text-green-400 bg-green-400/10 px-2 py-1 uppercase tracking-wider">Premium</span>
+                <span className="text-xs text-[#F5EDE6]/70 bg-[#F5EDE6]/10 px-2 py-1 uppercase tracking-wider">Premium</span>
               )}
             </div>
 
             {product.description && (
               <div className="mb-8">
-                <h3 className="text-white text-sm font-medium uppercase tracking-wider mb-3">Description</h3>
-                <p className="text-zinc-400 font-light leading-relaxed">{product.description}</p>
+                <h3 className="text-[#F5EDE6] text-sm font-medium uppercase tracking-wider mb-3">Description</h3>
+                <p className="text-[#F5EDE6]/60 font-light leading-relaxed">{product.description}</p>
               </div>
             )}
 
             {/* Product Details */}
-            <div className="mb-8 py-6 border-y border-zinc-800">
+            <div className="mb-8 py-6 border-y border-[#F5EDE6]/20">
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
-                  <span className="text-zinc-500">Availability</span>
-                  <p className={`text-white mt-1 ${product.stock > 0 ? 'text-green-400' : 'text-red-400'}`}>
+                  <span className="text-[#F5EDE6]/50">Availability</span>
+                  <p className={`text-[#F5EDE6] mt-1 ${product.stock > 0 ? 'text-[#F5EDE6]/70' : 'text-[#F5EDE6]/60'}`}>
                     {product.stock > 0 ? `In Stock (${product.stock} available)` : 'Out of Stock'}
                   </p>
                 </div>
                 <div>
-                  <span className="text-zinc-500">Category</span>
-                  <p className="text-white mt-1">{product.category}</p>
+                  <span className="text-[#F5EDE6]/50">Category</span>
+                  <p className="text-[#F5EDE6] mt-1">{product.category}</p>
                 </div>
               </div>
             </div>
@@ -237,19 +239,19 @@ export default function ProductDetailPage() {
             {/* Quantity & Add to Cart */}
             <div className="space-y-6">
               <div className="flex items-center gap-6">
-                <div className="flex items-center border border-zinc-700 rounded-lg">
+                <div className="flex items-center border border-[#F5EDE6]/20 rounded-lg">
                   <button 
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="px-5 py-3 text-white hover:bg-zinc-800 transition-colors"
+                    className="px-5 py-3 text-[#F5EDE6] hover:bg-[#8F4B43]/50 transition-colors"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
                     </svg>
                   </button>
-                  <span className="px-6 py-3 text-white font-medium">{quantity}</span>
+                  <span className="px-6 py-3 text-[#F5EDE6] font-medium">{quantity}</span>
                   <button 
                     onClick={() => setQuantity(Math.min(product.stock || 10, quantity + 1))}
-                    className="px-5 py-3 text-white hover:bg-zinc-800 transition-colors"
+                    className="px-5 py-3 text-[#F5EDE6] hover:bg-[#8F4B43]/50 transition-colors"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -257,8 +259,8 @@ export default function ProductDetailPage() {
                   </button>
                 </div>
                 
-                <span className="text-zinc-500 text-sm">
-                  Total: <span className="text-white font-medium">₹{(product.price * quantity)?.toLocaleString()}</span>
+                <span className="text-[#F5EDE6]/50 text-sm">
+                  Total: <span className="text-[#F5EDE6] font-medium">₹{(product.price * quantity)?.toLocaleString()}</span>
                 </span>
               </div>
 
@@ -266,17 +268,17 @@ export default function ProductDetailPage() {
                 <button 
                   onClick={handleAddToCart}
                   disabled={product.stock === 0}
-                  className="flex-1 bg-[#9b5a4a] text-white px-8 py-4 font-medium uppercase tracking-widest hover:bg-[#7a4538] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 bg-[#8F4B43] text-[#F5EDE6] px-8 py-4 font-medium uppercase tracking-widest hover:bg-[#8F4B43] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
                 </button>
                 <Tooltip content={isWishlisted ? 'Remove from Wishlist' : 'Add to Wishlist'}>
                   <button 
                     onClick={toggleWishlist}
-                    className="px-6 py-4 border border-zinc-700 text-white uppercase tracking-wider hover:bg-zinc-800 hover:border-zinc-600 transition-colors"
+                    className="px-6 py-4 border border-[#F5EDE6]/20 text-[#F5EDE6] uppercase tracking-wider hover:bg-[#8F4B43]/50 hover:border-[#F5EDE6]/20 transition-colors"
                   >
                     <svg 
-                      className={`w-6 h-6 ${isWishlisted ? 'text-red-500 fill-red-500' : 'text-zinc-400'}`}
+                      className={`w-6 h-6 ${isWishlisted ? 'text-red-500 fill-red-500' : 'text-[#F5EDE6]/60'}`}
                       fill={isWishlisted ? 'currentColor' : 'none'}
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -289,25 +291,25 @@ export default function ProductDetailPage() {
             </div>
 
             {/* Additional Info */}
-            <div className="mt-10 pt-6 border-t border-zinc-800">
+            <div className="mt-10 pt-6 border-t border-[#F5EDE6]/20">
               <div className="grid grid-cols-3 gap-4 text-center">
                 <div className="p-4">
-                  <svg className="w-6 h-6 text-white mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-6 h-6 text-[#F5EDE6] mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
                   </svg>
-                  <span className="text-zinc-500 text-xs">Free Shipping</span>
+                  <span className="text-[#F5EDE6]/50 text-xs">Free Shipping</span>
                 </div>
                 <div className="p-4">
-                  <svg className="w-6 h-6 text-white mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-6 h-6 text-[#F5EDE6] mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                   </svg>
-                  <span className="text-zinc-500 text-xs">Secure Payment</span>
+                  <span className="text-[#F5EDE6]/50 text-xs">Secure Payment</span>
                 </div>
                 <div className="p-4">
-                  <svg className="w-6 h-6 text-white mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-6 h-6 text-[#F5EDE6] mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                   </svg>
-                  <span className="text-zinc-500 text-xs">Easy Returns</span>
+                  <span className="text-[#F5EDE6]/50 text-xs">Easy Returns</span>
                 </div>
               </div>
             </div>

@@ -19,7 +19,16 @@ interface Product {
   stock: number;
 }
 
-const categories = ['All', 'Rings', 'Necklaces', 'Earrings', 'Bracelets'];
+const categories = ['All', 'Charms', 'Bracelets', 'Necklaces', 'Rings', 'Earrings', 'Gifts'];
+
+const categoryMap: Record<string, string> = {
+  'Charms': 'charms',
+  'Bracelets': 'bracelets',
+  'Necklaces': 'necklaces',
+  'Rings': 'rings',
+  'Earrings': 'earrings',
+  'Gifts': 'gifts',
+};
 
 const priceRanges = [
   { label: 'All Prices', min: 0, max: Infinity },
@@ -70,7 +79,8 @@ function ProductsContent() {
     let result = [...products];
 
     if (categoryFilter !== 'all') {
-      result = result.filter(p => p.category.toLowerCase() === categoryFilter.toLowerCase());
+      const mappedCategory = categoryMap[categoryFilter] || categoryFilter.toLowerCase();
+      result = result.filter(p => p.category.toLowerCase() === mappedCategory);
     }
 
     if (priceFilter > 0) {
@@ -101,7 +111,7 @@ function ProductsContent() {
     <div className={`space-y-8 ${mobile ? 'pb-6' : ''}`}>
       {/* Category Filter */}
       <div>
-        <h3 className="text-white text-sm font-medium uppercase tracking-wider mb-4">Category</h3>
+        <h3 className="text-[#F5EDE6] text-sm font-medium uppercase tracking-wider mb-4">Category</h3>
         <div className="space-y-2">
           {categories.map((cat) => (
             <button
@@ -109,8 +119,8 @@ function ProductsContent() {
               onClick={() => setCategoryFilter(cat.toLowerCase())}
               className={`block w-full text-left py-2 text-sm transition-colors ${
                 categoryFilter === cat.toLowerCase() 
-                  ? 'text-white' 
-                  : 'text-gray-400 hover:text-white'
+                  ? 'text-[#F5EDE6]' 
+                  : 'text-[#F5EDE6]/60 hover:text-[#F5EDE6]'
               }`}
             >
               {cat}
@@ -123,19 +133,19 @@ function ProductsContent() {
   );
 
   return (
-    <div className="min-h-screen bg-[#7a4538] pt-28 pb-16">
+    <div className="min-h-screen bg-[#8F4B43] pt-28 pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-10">
-          <span className="text-white text-xs font-medium tracking-[0.4em] uppercase">Collection</span>
-          <h1 className="text-3xl sm:text-4xl text-white mt-2 font-light">Our Jewelry</h1>
+          <span className="text-[#F5EDE6] text-xs font-medium tracking-[0.4em] uppercase">Collection</span>
+          <h1 className="text-3xl sm:text-4xl text-[#F5EDE6] mt-2 font-light">Our Jewelry</h1>
         </div>
 
         {/* Mobile Filter Toggle */}
         <div className="lg:hidden mb-6">
           <button 
             onClick={() => setSidebarOpen(true)}
-            className="flex items-center gap-2 text-white bg-zinc-900 px-4 py-3 rounded-lg w-full justify-center"
+            className="flex items-center gap-2 text-[#F5EDE6] bg-[#8F4B43]/50 px-4 py-3 rounded-lg w-full justify-center"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
@@ -147,7 +157,7 @@ function ProductsContent() {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar - Desktop */}
           <aside className="hidden lg:block w-64 flex-shrink-0">
-            <div className="sticky top-28 bg-zinc-900/50 p-6 rounded-lg border border-zinc-800">
+            <div className="sticky top-28 bg-[#8F4B43]/50/50 p-6 rounded-lg border border-[#F5EDE6]/20">
               <FilterSection />
             </div>
           </aside>
@@ -155,11 +165,11 @@ function ProductsContent() {
           {/* Mobile Sidebar Overlay */}
           {sidebarOpen && (
             <div className="fixed inset-0 z-50 lg:hidden">
-              <div className="absolute inset-0 bg-[#7a4538]/80" onClick={() => setSidebarOpen(false)} />
-              <div className="absolute right-0 top-0 bottom-0 w-80 bg-zinc-900 p-6 overflow-y-auto">
+              <div className="absolute inset-0 bg-[#8F4B43]/80" onClick={() => setSidebarOpen(false)} />
+              <div className="absolute right-0 top-0 bottom-0 w-80 bg-[#8F4B43]/50 p-6 overflow-y-auto">
                 <div className="flex justify-between items-center mb-6">
-                  <h2 className="text-white text-lg font-medium">Filters</h2>
-                  <button onClick={() => setSidebarOpen(false)} className="text-gray-400">
+                  <h2 className="text-[#F5EDE6] text-lg font-medium">Filters</h2>
+                  <button onClick={() => setSidebarOpen(false)} className="text-[#F5EDE6]/60">
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
                     </svg>
@@ -168,7 +178,7 @@ function ProductsContent() {
                 <FilterSection mobile />
                 <button 
                   onClick={() => setSidebarOpen(false)}
-                  className="w-full mt-6 bg-[#9b5a4a] text-white py-3 font-medium uppercase tracking-wider hover:bg-[#7a4538] transition-colors"
+                  className="w-full mt-6 bg-[#5C2E28] text-[#F5EDE6] py-3 font-medium uppercase tracking-wider hover:bg-[#8F4B43] transition-colors"
                 >
                   Apply Filters
                 </button>
@@ -186,16 +196,16 @@ function ProductsContent() {
                   placeholder="Search jewelry..." 
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full px-5 py-3 bg-zinc-900 border border-zinc-800 text-white placeholder-gray-500 focus:outline-none focus:border-white transition-colors"
+                  className="w-full px-5 py-3 bg-[#8F4B43]/50 border border-[#F5EDE6]/20 text-[#F5EDE6] placeholder-[#F5EDE6]/50 focus:outline-none focus:border-[#F5EDE6] transition-colors"
                 />
-                <svg className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#F5EDE6]/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
               </div>
               <select 
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="px-5 py-3 bg-zinc-900 border border-zinc-800 text-white focus:outline-none focus:border-white"
+                className="px-5 py-3 bg-[#8F4B43]/50 border border-[#F5EDE6]/20 text-[#F5EDE6] focus:outline-none focus:border-[#F5EDE6]"
               >
                 <option value="default">Sort by: Featured</option>
                 <option value="price-low">Price: Low to High</option>
@@ -208,20 +218,20 @@ function ProductsContent() {
             {(categoryFilter !== 'all' || priceFilter > 0) && (
               <div className="flex flex-wrap gap-2 mb-6">
                 {categoryFilter !== 'all' && (
-                  <span className="inline-flex items-center gap-2 bg-zinc-800 text-white px-3 py-1 text-sm rounded-full">
+                  <span className="inline-flex items-center gap-2 bg-[#8F4B43]/30 text-[#F5EDE6] px-3 py-1 text-sm rounded-full">
                     {categoryFilter}
-                    <button onClick={() => setCategoryFilter('all')} className="text-gray-400 hover:text-white">×</button>
+                    <button onClick={() => setCategoryFilter('all')} className="text-[#F5EDE6]/60 hover:text-[#F5EDE6]">×</button>
                   </span>
                 )}
                 {priceFilter > 0 && (
-                  <span className="inline-flex items-center gap-2 bg-zinc-800 text-white px-3 py-1 text-sm rounded-full">
+                  <span className="inline-flex items-center gap-2 bg-[#8F4B43]/30 text-[#F5EDE6] px-3 py-1 text-sm rounded-full">
                     {priceRanges[priceFilter].label}
-                    <button onClick={() => setPriceFilter(0)} className="text-gray-400 hover:text-white">×</button>
+                    <button onClick={() => setPriceFilter(0)} className="text-[#F5EDE6]/60 hover:text-[#F5EDE6]">×</button>
                   </span>
                 )}
                 <button 
                   onClick={() => { setCategoryFilter('all'); setPriceFilter(0); }}
-                  className="text-white text-sm hover:text-white-70"
+                  className="text-[#F5EDE6] text-sm hover:text-[#F5EDE6]-70"
                 >
                   Clear all
                 </button>
@@ -229,17 +239,17 @@ function ProductsContent() {
             )}
 
             {/* Results Count */}
-            <p className="text-gray-500 text-sm mb-6">{filteredProducts.length} products found</p>
+            <p className="text-[#F5EDE6]/60 text-sm mb-6">{filteredProducts.length} products found</p>
 
             {/* Loading State */}
             {loading && (
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
                 {[...Array(8)].map((_, i) => (
                   <div key={i} className="animate-pulse">
-                    <div className="aspect-square bg-zinc-800 rounded-lg mb-4" />
-                    <div className="h-3 bg-zinc-800 rounded w-16 mb-2" />
-                    <div className="h-4 bg-zinc-800 rounded w-3/4 mb-2" />
-                    <div className="h-4 bg-zinc-800 rounded w-20" />
+                    <div className="aspect-square bg-[#8F4B43]/30 rounded-lg mb-4" />
+                    <div className="h-3 bg-[#8F4B43]/30 rounded w-16 mb-2" />
+                    <div className="h-4 bg-[#8F4B43]/30 rounded w-3/4 mb-2" />
+                    <div className="h-4 bg-[#8F4B43]/30 rounded w-20" />
                   </div>
                 ))}
               </div>
@@ -249,7 +259,7 @@ function ProductsContent() {
             {error && (
               <div className="text-center py-20">
                 <p className="text-red-400">{error}</p>
-                <button onClick={loadProducts} className="mt-4 text-white hover:text-white">
+                <button onClick={loadProducts} className="mt-4 text-[#F5EDE6] hover:text-[#F5EDE6]">
                   Try Again
                 </button>
               </div>
@@ -258,10 +268,10 @@ function ProductsContent() {
             {/* Empty State */}
             {!loading && !error && filteredProducts.length === 0 && (
               <div className="text-center py-20">
-                <p className="text-gray-500 text-lg mb-4">No products found</p>
+                <p className="text-[#F5EDE6]/60 text-lg mb-4">No products found</p>
                 <button 
                   onClick={() => { setCategoryFilter('all'); setPriceFilter(0); setSearchQuery(''); }}
-                  className="text-white hover:text-white"
+                  className="text-[#F5EDE6] hover:text-[#F5EDE6]"
                 >
                   Clear filters
                 </button>
@@ -277,7 +287,7 @@ function ProductsContent() {
                     href={`/products/${product.slug || product._id}`}
                     className="group"
                   >
-                    <div className="relative aspect-square overflow-hidden rounded-lg bg-zinc-900 mb-4">
+                    <div className="relative aspect-square overflow-hidden rounded-lg bg-[#8F4B43]/50 mb-4">
                       {product.image ? (
                         <Image 
                           src={`${API_BASE_URL}${product.image}`}
@@ -293,17 +303,17 @@ function ProductsContent() {
                           className="object-cover transition-transform duration-500 group-hover:scale-110"
                         />
                       )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#5c3528]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#8F4B43]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <span className="bg-[#9b5a4a] text-white px-5 py-2 text-sm uppercase tracking-wider">View</span>
+                        <span className="bg-[#5C2E28] text-[#F5EDE6] px-5 py-2 text-sm uppercase tracking-wider">View</span>
                       </div>
                       {product.stock === 0 && (
-                        <div className="absolute top-3 right-3 bg-red-500 text-white text-xs px-2 py-1 uppercase">Sold Out</div>
+                        <div className="absolute top-3 right-3 bg-red-500 text-[#F5EDE6] text-xs px-2 py-1 uppercase">Sold Out</div>
                       )}
                     </div>
-                    <p className="text-white text-xs tracking-[0.2em] uppercase mb-2">{product.category}</p>
-                    <h3 className="text-white font-light text-sm mb-2 group-hover:text-white transition-colors line-clamp-2">{product.name}</h3>
-                    <p className="text-gray-400 font-light">₹{product.price?.toLocaleString()}</p>
+                    <p className="text-[#F5EDE6] text-xs tracking-[0.2em] uppercase mb-2">{product.category}</p>
+                    <h3 className="text-[#F5EDE6] font-light text-sm mb-2 group-hover:text-[#F5EDE6] transition-colors line-clamp-2">{product.name}</h3>
+                    <p className="text-[#F5EDE6]/60 font-light">₹{product.price?.toLocaleString()}</p>
                   </Link>
                 ))}
               </div>
@@ -318,19 +328,19 @@ function ProductsContent() {
 export default function ProductsPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-[#7a4538] pt-28 pb-16">
+      <div className="min-h-screen bg-[#8F4B43] pt-28 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <span className="text-white text-xs font-medium tracking-[0.4em] uppercase">Collection</span>
-            <h1 className="text-3xl sm:text-4xl text-white mt-2 font-light">Our Jewelry</h1>
+            <span className="text-[#F5EDE6] text-xs font-medium tracking-[0.4em] uppercase">Collection</span>
+            <h1 className="text-3xl sm:text-4xl text-[#F5EDE6] mt-2 font-light">Our Jewelry</h1>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
             {[...Array(8)].map((_, i) => (
               <div key={i} className="animate-pulse">
-                <div className="aspect-square bg-zinc-800 rounded-lg mb-4" />
-                <div className="h-3 bg-zinc-800 rounded w-16 mb-2" />
-                <div className="h-4 bg-zinc-800 rounded w-3/4 mb-2" />
-                <div className="h-4 bg-zinc-800 rounded w-20" />
+                <div className="aspect-square bg-[#8F4B43]/30 rounded-lg mb-4" />
+                <div className="h-3 bg-[#8F4B43]/30 rounded w-16 mb-2" />
+                <div className="h-4 bg-[#8F4B43]/30 rounded w-3/4 mb-2" />
+                <div className="h-4 bg-[#8F4B43]/30 rounded w-20" />
               </div>
             ))}
           </div>

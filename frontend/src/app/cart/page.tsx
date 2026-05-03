@@ -64,16 +64,16 @@ export default function CartPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#7a4538] pt-28 pb-16">
+      <div className="min-h-screen bg-[#8F4B43] pt-28 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="animate-pulse space-y-8">
-            <div className="h-8 bg-zinc-800 rounded w-48" />
+            <div className="h-8 bg-[#8F4B43]/50 rounded w-48" />
             {[...Array(3)].map((_, i) => (
-              <div key={i} className="flex gap-6 p-6 bg-zinc-900 rounded-xl">
-                <div className="w-32 h-32 bg-zinc-800 rounded-lg" />
+              <div key={i} className="flex gap-6 p-6 bg-[#8F4B43]/50 rounded-xl">
+                <div className="w-32 h-32 bg-[#8F4B43]/50 rounded-lg" />
                 <div className="flex-1 space-y-4">
-                  <div className="h-4 bg-zinc-800 rounded w-1/3" />
-                  <div className="h-4 bg-zinc-800 rounded w-24" />
+                  <div className="h-4 bg-[#8F4B43]/50 rounded w-1/3" />
+                  <div className="h-4 bg-[#8F4B43]/50 rounded w-24" />
                 </div>
               </div>
             ))}
@@ -84,20 +84,20 @@ export default function CartPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#7a4538] pt-28 pb-16">
+    <div className="min-h-screen bg-[#8F4B43] pt-28 pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl sm:text-4xl text-white font-light mb-10">Shopping Cart</h1>
+        <h1 className="text-3xl sm:text-4xl text-[#F5EDE6] font-light mb-10">Shopping Cart</h1>
 
         {items.length === 0 ? (
           <div className="text-center py-20">
-            <svg className="w-20 h-20 text-zinc-700 mx-auto mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-20 h-20 text-[#F5EDE6]/60 mx-auto mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
             </svg>
-            <h2 className="text-xl text-white mb-4 font-light">Your cart is empty</h2>
-            <p className="text-white-50 mb-8">Looks like you haven't added any items yet.</p>
+            <h2 className="text-xl text-[#F5EDE6] mb-4 font-light">Your cart is empty</h2>
+            <p className="text-[#F5EDE6]/50 mb-8">Looks like you haven't added any items yet.</p>
             <Link 
               href="/products" 
-              className="inline-block bg-[#9b5a4a] text-white px-8 py-3 font-medium uppercase tracking-wider hover:bg-[#7a4538] transition-colors"
+              className="inline-block bg-[#8F4B43] text-[#F5EDE6] px-8 py-3 font-medium uppercase tracking-wider hover:bg-[#8F4B43] transition-colors"
             >
               Continue Shopping
             </Link>
@@ -106,7 +106,7 @@ export default function CartPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
             {/* Cart Items */}
             <div className="lg:col-span-2 space-y-4">
-              <div className="hidden sm:grid grid-cols-12 gap-4 px-6 py-3 text-xs text-white-50 uppercase tracking-wider border-b border-zinc-800">
+              <div className="hidden sm:grid grid-cols-12 gap-4 px-6 py-3 text-xs text-[#F5EDE6]/50 uppercase tracking-wider border-b border-[#F5EDE6]/20">
                 <div className="col-span-5">Product</div>
                 <div className="col-span-2 text-center">Price</div>
                 <div className="col-span-3 text-center">Quantity</div>
@@ -116,10 +116,10 @@ export default function CartPage() {
               {items.map((item) => (
                 <div 
                   key={item._id} 
-                  className="grid grid-cols-1 sm:grid-cols-12 gap-4 p-6 bg-zinc-900 rounded-xl border border-zinc-800"
+                  className="grid grid-cols-1 sm:grid-cols-12 gap-4 p-6 bg-[#8F4B43]/50 rounded-xl border border-[#F5EDE6]/20"
                 >
                   <div className="sm:col-span-5 flex gap-4">
-                    <Link href={`/products/${item.productId}`} className="flex-shrink-0 relative w-24 h-24 rounded-lg overflow-hidden bg-zinc-900">
+                    <Link href={`/products/${item.productId}`} className="flex-shrink-0 relative w-24 h-24 rounded-lg overflow-hidden bg-[#8F4B43]/50">
                       {item.image ? (
                         <Image 
                           src={`${API_BASE_URL}${item.image}`}
@@ -138,12 +138,12 @@ export default function CartPage() {
                     </Link>
                     <div className="min-w-0">
                       <Link href={`/products/${item.productId}`}>
-                        <h3 className="text-white font-light text-lg hover:text-white transition-colors">{item.name}</h3>
+                        <h3 className="text-[#F5EDE6] font-light text-lg hover:text-[#F5EDE6] transition-colors">{item.name}</h3>
                       </Link>
-                      <p className="text-white-50 text-sm mt-1">{item.category}</p>
+                      <p className="text-[#F5EDE6]/50 text-sm mt-1">{item.category}</p>
                       <button 
                         onClick={() => removeItem(item._id)}
-                        className="text-white-50 text-sm hover:text-red-400 mt-2 transition-colors"
+                        className="text-[#F5EDE6]/50 text-sm hover:text-red-400 mt-2 transition-colors"
                       >
                         Remove
                       </button>
@@ -151,23 +151,23 @@ export default function CartPage() {
                   </div>
 
                   <div className="sm:col-span-2 sm:text-center flex items-center justify-between sm:justify-center py-2">
-                    <span className="sm:hidden text-white-50">Price:</span>
-                    <span className="text-white">₹{item.price.toLocaleString()}</span>
+                    <span className="sm:hidden text-[#F5EDE6]/50">Price:</span>
+                    <span className="text-[#F5EDE6]">₹{item.price.toLocaleString()}</span>
                   </div>
 
                   <div className="sm:col-span-3 flex items-center justify-between sm:justify-center py-2">
-                    <span className="sm:hidden text-white-50">Qty:</span>
-                    <div className="flex items-center border border-zinc-700 rounded-lg">
+                    <span className="sm:hidden text-[#F5EDE6]/50">Qty:</span>
+                    <div className="flex items-center border border-[#F5EDE6]/20 rounded-lg">
                       <button 
                         onClick={() => updateQuantity(item._id, -1)}
-                        className="px-3 py-1 text-white hover:bg-zinc-800 transition-colors"
+                        className="px-3 py-1 text-[#F5EDE6] hover:bg-[#8F4B43]/50 transition-colors"
                       >
                         -
                       </button>
-                      <span className="px-4 py-1 text-white">{item.quantity}</span>
+                      <span className="px-4 py-1 text-[#F5EDE6]">{item.quantity}</span>
                       <button 
                         onClick={() => updateQuantity(item._id, 1)}
-                        className="px-3 py-1 text-white hover:bg-zinc-800 transition-colors"
+                        className="px-3 py-1 text-[#F5EDE6] hover:bg-[#8F4B43]/50 transition-colors"
                       >
                         +
                       </button>
@@ -175,15 +175,15 @@ export default function CartPage() {
                   </div>
 
                   <div className="sm:col-span-2 flex items-center justify-between sm:justify-end py-2">
-                    <span className="sm:hidden text-white-50">Total:</span>
-                    <span className="text-white font-medium">₹{(item.price * item.quantity).toLocaleString()}</span>
+                    <span className="sm:hidden text-[#F5EDE6]/50">Total:</span>
+                    <span className="text-[#F5EDE6] font-medium">₹{(item.price * item.quantity).toLocaleString()}</span>
                   </div>
                 </div>
               ))}
 
               <Link 
                 href="/products" 
-                className="inline-flex items-center gap-2 text-white-60 hover:text-white transition-colors text-sm"
+                className="inline-flex items-center gap-2 text-[#F5EDE6]/60 hover:text-[#F5EDE6] transition-colors text-sm"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 16l-4-4m0 0l4-4m-4 4h18" />
@@ -194,36 +194,36 @@ export default function CartPage() {
 
             {/* Order Summary */}
             <div className="lg:col-span-1">
-              <div className="bg-zinc-900 rounded-xl p-6 border border-zinc-800 sticky top-28">
-                <h2 className="text-white text-lg font-medium mb-6">Order Summary</h2>
+              <div className="bg-[#8F4B43]/50 rounded-xl p-6 border border-[#F5EDE6]/20 sticky top-28">
+                <h2 className="text-[#F5EDE6] text-lg font-medium mb-6">Order Summary</h2>
                 
-                <div className="space-y-4 pb-6 border-b border-zinc-800">
-                  <div className="flex justify-between text-white-60">
+                <div className="space-y-4 pb-6 border-b border-[#F5EDE6]/20">
+                  <div className="flex justify-between text-[#F5EDE6]/60">
                     <span>Subtotal</span>
-                    <span className="text-white">₹{subtotal.toLocaleString()}</span>
+                    <span className="text-[#F5EDE6]">₹{subtotal.toLocaleString()}</span>
                   </div>
-                  <div className="flex justify-between text-white-60">
+                  <div className="flex justify-between text-[#F5EDE6]/60">
                     <span>Shipping</span>
-                    <span className={shipping === 0 ? 'text-green-400' : 'text-white'}>
+                    <span className={shipping === 0 ? 'text-green-400' : 'text-[#F5EDE6]'}>
                       {shipping === 0 ? 'Free' : `₹${shipping}`}
                     </span>
                   </div>
                 </div>
 
                 <div className="flex justify-between py-6">
-                  <span className="text-white text-lg">Total</span>
-                  <span className="text-white text-2xl font-light">₹{total.toLocaleString()}</span>
+                  <span className="text-[#F5EDE6] text-lg">Total</span>
+                  <span className="text-[#F5EDE6] text-2xl font-light">₹{total.toLocaleString()}</span>
                 </div>
 
                 <Link 
                   href="/checkout"
-                  className="block w-full bg-[#9b5a4a] text-white py-4 text-center font-medium uppercase tracking-wider hover:bg-[#7a4538] transition-all"
+                  className="block w-full bg-[#8F4B43] text-[#F5EDE6] py-4 text-center font-medium uppercase tracking-wider hover:bg-[#8F4B43] transition-all"
                 >
                   Proceed to Checkout
                 </Link>
 
-                <div className="mt-6 pt-6 border-t border-zinc-800">
-                  <p className="text-white-50 text-xs text-center">
+                <div className="mt-6 pt-6 border-t border-[#F5EDE6]/20">
+                  <p className="text-[#F5EDE6]/50 text-xs text-center">
                     Secure checkout powered by Stripe
                   </p>
                 </div>

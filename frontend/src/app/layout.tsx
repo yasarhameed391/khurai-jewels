@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import SnackbarProvider from "@/components/Snackbar";
 
 const playfair = Playfair_Display({
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
     default: "Khurai Jewels | Fine Handcrafted Jewelry in Kerala",
     template: "%s | Khurai Jewels",
   },
-  description: "Discover premium handcrafted jewelry from Khurai Jewels, Kochi, Kerala. Adorn Your Everyday with our exclusive collection of rings, necklaces, earrings & bracelets.",
+  description: "Discover premium handcrafted jewelry from Khurai Jewels, . Adorn Your Everyday with our exclusive collection of rings, necklaces, earrings & bracelets.",
   keywords: ["jewelry", "gold jewelry", "handcrafted jewelry", "fine jewelry", "Kerala jewelry", "rings", "necklaces", "earrings", "bracelets"],
   authors: [{ name: "Thasni Hameed", url: "https://khuraijewels.com" }],
   creator: "Khurai Jewels",
@@ -26,7 +27,7 @@ export const metadata: Metadata = {
     url: "https://khuraijewels.com",
     siteName: "Khurai Jewels",
     title: "Khurai Jewels | Fine Handcrafted Jewelry",
-    description: "Discover premium handcrafted jewelry from Khurai Jewels, Kochi, Kerala. Adorn Your Everyday.",
+    description: "Discover premium handcrafted jewelry from Khurai Jewels, . Adorn Your Everyday.",
     images: [
       {
         url: "/og-image.jpg",
@@ -35,12 +36,6 @@ export const metadata: Metadata = {
         alt: "Khurai Jewels - Fine Handcrafted Jewelry",
       },
     ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Khurai Jewels | Fine Handcrafted Jewelry",
-    description: "Discover premium handcrafted jewelry from Khurai Jewels, Kochi, Kerala.",
-    images: ["/og-image.jpg"],
   },
   robots: {
     index: true,
@@ -57,7 +52,7 @@ export const metadata: Metadata = {
     canonical: "https://khuraijewels.com",
   },
   icons: {
-    icon: "/favicon.ico",
+    icon: "/logo.png",
     apple: "/logo.png",
   },
 };
@@ -72,11 +67,12 @@ export default function RootLayout({
       lang="en"
       className={`${playfair.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#7a4538]">
+      <body className="min-h-full flex flex-col bg-[#8F4B43]">
         <Navbar />
         <SnackbarProvider>
           <main className="flex-1">{children}</main>
         </SnackbarProvider>
+        <Footer />
       </body>
     </html>
   );

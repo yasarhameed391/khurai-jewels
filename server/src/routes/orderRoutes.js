@@ -104,7 +104,7 @@ router.post('/success', protect, orderController.createOrder);
  */
 router.post('/cod', orderController.createCODOrder);
 
-router.get('/user/:userId', orderController.getUserOrders);
+router.get('/user/:userId', protect, orderController.getUserOrders);
 router.get('/admin', protect, orderController.getAllOrders);
 router.put('/:orderId/status', protect, orderController.updateOrderStatus);
 
