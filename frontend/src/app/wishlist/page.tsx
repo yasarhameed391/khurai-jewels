@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { getWishlist, removeFromWishlist, fetchProductById } from '@/lib/api';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://khurai-jewels.onrender.com';
 
 interface Product {
   _id: string;
