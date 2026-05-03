@@ -1,0 +1,14 @@
+{
+  "name": "Khurai Jewels",
+  "short_name": "Khurai",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "any",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#8F4B43",
+  "background_color": "#8F4B43",
+  "display": "standalone"
+}
